@@ -1,0 +1,115 @@
+---
+params:
+  area_code: "E92000001"
+  area_name: "England"
+  page_title: "title"
+  data_name: "health_trends_data.rds"
+
+title: "`r params$page_title`"
+
+format:
+  html:
+    page-layout: full
+    fig-height: 3
+    fig-format: svg
+    filters:
+      - inline-svg
+    embed-resources: true
+    css: www/styles.css
+    lang: en
+    anchor-sections: false
+      
+template: www/HTS.template
+
+execute:
+  echo: false
+---
+
+```{r}
+#| warnings: false
+#| message: false
+#| output: false
+
+area_code <- params$area_code
+area_name <- params$area_name
+
+# Read in data file
+file_path <- file.path(
+  "healthtrendsfiles",
+  "data",
+  params$data_name
+)
+
+all_data <- readr::read_rds(file_path)
+
+# get df of spotlight indicators, topic names, sex
+# and check if multiple tiles are needed
+spotlight_df <- healthtrends:::get_spotlight_df(
+  all_data = all_data,
+  area_code = area_code,
+  spotlight = "first"
+)
+
+```
+
+```{r}
+#| results: asis
+# title with dropdown
+
+# get all area names, ordered England > Region > UTLA
+# (alphabetical within each tier), matching the AreaCode geography prefixes
+# used elsewhere in the package
+all_area_names <- all_data |>
+  dplyr::distinct(AreaCode, AreaName) |>
+  dplyr::mutate(
+    area_rank = dplyr::case_when(
+      stringr::str_sub(AreaCode, 1, 3) == "E92" ~ 1L, # England
+      stringr::str_sub(AreaCode, 1, 3) == "E12" ~ 2L, # Region
+      TRUE ~ 3L                                       # UTLA
+    )
+  ) |>
+  dplyr::arrange(area_rank, AreaName) |>
+  dplyr::pull(AreaName)
+
+healthtrends:::html_title_dropdown(area_name, all_area_names)
+```
+
+
+```{r}
+#| label: intro
+#| results: asis
+cat(
+  paste0(
+    '<p class="lead">Health trends in England presents information about the health of people in England and how it has changed over time. Topics presented include risk factors, disease prevalence and outcomes. Find out more ',
+    '<a href ="',
+    base_url <- config::get(
+      value = "base_url",
+      config = "production"
+    ),
+    'about.html">about Health trends in England</a>.</p>',
+    '<p class="lead">This overview page presents a headline indicator for each topic. Click through to see more detailed information on each topic.</p>'
+  )
+)
+```
+
+
+::: {.grid}
+
+```{r}
+#| include: false
+#| error: false
+#| warning: false
+# create details chunks for indicators in topic
+output <- NULL
+
+for (i in seq_along(spotlight_df$IndicatorID)) {
+  output <- c(
+    output,
+    knitr::knit_child("healthtrendsfiles/Quarto_extracts/_summary_tile.qmd")
+  )
+}
+```
+
+`r paste(output, collapse = "\n")`
+
+:::

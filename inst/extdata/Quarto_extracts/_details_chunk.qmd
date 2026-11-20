@@ -1,0 +1,230 @@
+```{r}
+#| warnings: false
+#| message: false
+#| output: false
+
+# Get the nth indicator
+ind <- topic_inds[i]
+
+# get number of sexes for selected indicator
+n_sex <- healthtrends:::ind_n_sex(ind, all_data)
+
+if (area_code == "E92000001") {
+  filter_areas <- area_code
+} else {
+  filter_areas <- c(area_code, "E92000001")
+}
+
+# England and area
+ind_data <- all_data |>
+  dplyr::filter(
+    AreaCode %in% filter_areas,
+    IndicatorID %in% ind
+  ) |>
+  droplevels()
+
+# Just data for specific area
+area_data <- ind_data |>
+  dplyr::filter(AreaCode %in% area_code) |>
+  droplevels()
+
+# get lowercase indicator name, keep acronyms in uppercase
+ind_name_lc <- unique(area_data$IndicatorNameLC)
+```
+
+```{r}
+#| results: asis
+# Indicator title and subtitle
+cat(paste0("## ", unique(area_data$IndicatorName), "\n\n"))
+
+if (any(!unique(area_data$Sex) %in% "Not applicable") && n_sex == 2) {
+  cat(paste0("Male and Female, ", stringr::str_to_lower(unique(area_data$Age))))
+} else if (any(!unique(area_data$Sex) %in% "Not applicable")) {
+  cat(
+    paste0(
+      unique(area_data$Sex), ", ", stringr::str_to_lower(unique(area_data$Age))
+    )
+  )
+}
+cat("\n")
+```
+
+::: {.panel-tabset}
+
+
+```{r}
+#| results: asis
+cat("## Chart \n\n")
+```
+
+
+```{r}
+#| warnings: false
+#| message: false
+healthtrends:::details_chart(ind_data, area_name, n_sex)
+```
+
+
+```{r}
+#| results: asis
+cat("## Table \n\n")
+```
+
+
+```{r}
+#| warnings: false
+#| message: false
+table <- healthtrends:::data_table(ind_data, area_code, area_name, n_sex)
+
+htmlTable:::htmlTable(
+  table,
+  rnames = FALSE,
+  align = c("l", rep("r", ncol(table) - 1)),
+  align.header = c("l", rep("r", ncol(table) - 1)) # Left align all headers
+)
+```
+
+
+```{r}
+#| results: asis
+# download data link
+cat("## Download \n\n")
+```
+
+
+```{r}
+#| warnings: false
+#| message: false
+#| results: asis
+# save csv to temp file
+f <- tempfile(fileext = ".csv")
+write.csv(table, f, row.names = FALSE)
+
+# create download link - warnings about deprecated function,
+# see https://yihui.org/en/2023/02/xfun-isfalse/ for info
+xfun::embed_file(
+  f,
+  name = paste0(
+    stringr::str_replace_all(ind_name_lc, " ", "-"), "-chart-data"
+  ),
+  text = paste0("Download data on ", ind_name_lc, " in CSV format.")
+)
+
+cat(
+  paste0(
+    "<br><br>See more information about [using CSV file format]",
+    "(https://www.gov.uk/guidance/using-csv-file-format)."
+  )
+)
+```
+
+```{r}
+#| results: asis
+# more information tab
+cat("## More information \n\n")
+```
+
+```{r}
+#| results: "asis"
+
+# select links to fingertips trend and description pages
+ind_link_df <- area_data |>
+  dplyr::select(
+    Sex,
+    TrendURL,
+    DefinitionURL,
+    ProfileURL,
+    ProfNameLC,
+    IndicatorNameLC
+  ) |>
+  dplyr::distinct()
+
+if (n_sex == 2) {
+  trend_url_m <- ind_link_df |>
+    dplyr::filter(Sex %in% "Male") |>
+    dplyr::pull(TrendURL)
+
+  trend_url_f <- ind_link_df |>
+    dplyr::filter(Sex %in% "Female") |>
+    dplyr::pull(TrendURL)
+
+  trend_link <- paste0(
+    ind_name_lc, ", male data](", trend_url_m,
+    ").\n\n View [", ind_name_lc, ", female data](",
+    trend_url_f, ").\n\n"
+  )
+
+  def <- ind_link_df |>
+    dplyr::slice_head() |>
+    dplyr::pull(DefinitionURL)
+} else {
+  trend_url <- ind_link_df |>
+    dplyr::slice_head() |>
+    dplyr::pull(TrendURL)
+
+  trend_link <- paste0(ind_name_lc, " data](", trend_url, "). \n\n")
+
+  def <- ind_link_df |>
+    dplyr::slice_head() |>
+    dplyr::pull(DefinitionURL)
+}
+
+
+# Link to indicator's fingertips pages
+cat(
+  paste0(
+    "You can find more information about this indicator and related data on ",
+    "our Fingertips website. Fingertips is a data platform that contains a ",
+    " large range of indicators organised into topics, such as tobacco, ",
+    "mental health, and mortality.\n\n View [", trend_link
+  )
+)
+
+# link to metadata
+cat(paste0("View the [", ind_name_lc, " definition](", def, ").\n\n"))
+
+# link to profile
+profile_url <- ind_link_df |>
+  dplyr::slice_head() |>
+  dplyr::pull(ProfileURL)
+
+profile_name_lc <- ind_link_df |>
+  dplyr::slice_head() |>
+  dplyr::pull(ProfNameLC)
+
+cat(
+  paste0(
+    "Visit the [",
+    profile_name_lc,
+    "](",
+    profile_url,
+    ") on Fingertips for more information on ",
+    stringr::str_to_lower(params$selected_topic),
+    "."
+  )
+)
+
+```
+
+```{r}
+#| warnings: false
+#| message: false
+
+```
+
+:::
+
+```{r}
+#| results: "asis"
+# Indicator source
+cat(paste0("**Source:** ", unique(ind_data$DataSource), "\n\n"))
+
+# Dynamic text about indicator
+cat(healthtrends:::dynamic_text(area_data, area_name, n_sex))
+```
+
+
+```{r}
+#| results: "asis"
+cat("<br>")
+```

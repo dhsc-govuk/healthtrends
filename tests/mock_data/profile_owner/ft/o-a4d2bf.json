@@ -1,0 +1,23 @@
+[
+    {
+        "IndicatorId": 253,
+        "IndicatorName": "COPD: QOF prevalence",
+        "OwnerProfileId": 20,
+        "OwnerProfileName": "National General Practice Profiles",
+        "OwnerProfileUrlKey": "general-practice"
+    },
+    {
+        "IndicatorId": 20401,
+        "IndicatorName": "Under 18s conception rate",
+        "OwnerProfileId": 45,
+        "OwnerProfileName": "Sexual and Reproductive Health Profiles",
+        "OwnerProfileUrlKey": "sexualhealth"
+    },
+    {
+        "IndicatorId": 90362,
+        "IndicatorName": "Healthy life expectancy at birth",
+        "OwnerProfileId": 19,
+        "OwnerProfileName": "Public Health Outcomes Framework",
+        "OwnerProfileUrlKey": "public-health-outcomes-framework"
+    }
+]

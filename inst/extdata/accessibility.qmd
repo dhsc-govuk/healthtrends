@@ -1,0 +1,92 @@
+---
+title: "Accessibility"
+
+format:
+  html:
+    page-layout: full
+    embed-resources: true
+    anchor-sections: false
+    self-contained: true
+    css: www/styles.css
+    lang: en
+    grid-layout:
+      body: 760px
+    
+template: www/HTS.template
+
+execute:
+  echo: false
+
+---
+
+```{r}
+#| warnings: false
+#| message: false
+#| output: false
+
+# set current year
+year <- format(Sys.Date(), "%Y")
+```
+
+::: {.grid}
+::: {.g-col-12 .g-col-sm-3}
+
+```{r sidebar}
+#| results: asis
+
+# Get list of topics
+topics <- healthtrends:::get_indicator_csv(as_df = TRUE)
+
+sidebar_list <- c("Overview", unique(topics$TopicName), "About")
+
+# Create sidebar
+healthtrends:::html_sidebar(topics = sidebar_list, area_name = "England")
+```
+
+:::
+
+::: {.g-col-12 .g-col-sm-9}
+
+<h1>Accessibility statement for Health trends in England</h1>
+
+This page was last updated **8 May 2024**.
+
+```{r toc}
+#| results: asis
+
+# table of contents
+
+# Get names of all charts to add to subnav list
+sections <- c(
+  "Compliance status",
+  "Non-accessible content"
+)
+
+# Create sidebar
+healthtrends:::html_toc(topic = "Accessibility", section_titles = sections)
+```
+
+This accessibility statement applies to [Health trends in England](England/overview.html).  
+
+We want as many people as possible to be able to use this website. You should be able to:
+
+* zoom in up to 400% without the text spilling off the screen
+* navigate most of the website using just a keyboard
+* access the website using a mobile or tablet
+
+## Compliance status
+
+This website is partially compliant with the [Web Content Accessibility Guidelines version 2.1](https://www.w3.org/TR/WCAG21/) AA standard or [Web Content Accessibility Guidelines version 2.2](https://www.w3.org/TR/WCAG22/) AA standard. Content that is currently non-accessible is detailed below.
+
+## Non-accessible content
+
+We know some parts of this website are not fully accessible:
+
+* Whilst textual alternatives such as alt text and accessible tables of the data presented in charts have been included, we will continue to improve the accessibility of content shown via graphics
+* it was not possible to test the website using the latest screen reader versions (including the most recent versions of JAWS, NVDA and VoiceOver)
+
+
+
+:::
+
+:::

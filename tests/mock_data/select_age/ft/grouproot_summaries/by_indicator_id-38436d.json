@@ -1,0 +1,46 @@
+[
+    {
+        "IndicatorName": "Percentage of physically inactive adults",
+        "IID": 93015,
+        "Sex": {
+            "Id": 4,
+            "Name": "Persons"
+        },
+        "Age": {
+            "Id": 298,
+            "Name": "19+ yrs",
+            "Sequence": 19.5
+        },
+        "Category": {
+            "Id": -1,
+            "CategoryTypeId": -1,
+            "Name": "Undefined",
+            "ShortName": "Undefined",
+            "Sequence": -1
+        },
+        "DateChanges": {
+            "HasDataChangedRecently": false,
+            "DateOfLastChange": "06 May 2026"
+        },
+        "DataQualityNote": {
+            "Id": 0,
+            "Text": "None",
+            "Comment": null
+        },
+        "GroupId": 1938133219,
+        "StateSex": false,
+        "StateAge": true,
+        "StateYearRange": false,
+        "TimePeriod": "2024/25",
+        "Unit": {
+            "Id": 5,
+            "Value": 100.0,
+            "Label": "%"
+        },
+        "ValueType": {
+            "Id": 5,
+            "Name": "Proportion"
+        },
+        "YearRange": 1
+    }
+]

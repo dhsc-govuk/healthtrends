@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="$lang$" xml:lang="$lang$"$if(dir)$ dir="$dir$"$endif$ class="govuk-template govuk-template--rebranded">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-01EZKLH62J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-01EZKLH62J');
+</script>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta http-equiv="cache-control" content="no-store" />
+$for(author-meta)$
+  <meta name="author" content="$author-meta$" />
+$endfor$
+$if(date-meta)$
+  <meta name="dcterms.date" content="$date-meta$" />
+$endif$
+$if(keywords)$
+  <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$" />
+$endif$
+$if(description-meta)$
+  <meta name="description" content="$description-meta$" />
+$endif$
+  <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
+  <style>
+    $styles.html()$
+  </style>
+$for(css)$
+  <link rel="stylesheet" href="$css$" />
+$endfor$
+$for(header-includes)$
+  $header-includes$
+$endfor$
+$if(math)$
+$if(mathjax)$
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+$endif$
+  $math$
+$endif$
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+
+<style>
+/* drop down nav button style from W3 schools*/
+  .dropdown {
+  float: right;
+  position: relative;
+  display: inline-block;
+}
+.dropdown .dropbtn {
+  cursor: pointer;
+  /*font-size: 20px;*/
+  border: none;
+  outline: none;
+  color: white;
+  padding: 4px;
+  padding-top: 5px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.dropdown .dropbtn:hover{
+  text-decoration: underline;
+}
+
+.dropdown .dropbtn:active,
+.dropdown .dropbtn:focus {
+  color: black;
+  text-decoration: underline;
+  background-color: #ffdd00;
+}
+
+input[type=submit]:hover{
+    text-decoration:underline;
+}
+/* hover colour but don't need it
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+  background-color: red;
+}
+*/
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+
+</style>
+
+<script>
+  /* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+
+function myFunction3() {
+  document.getElementById("myDropdown3").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn3')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content3");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+// Close the dropdown when the cursor leaves the dropdown area
+document.addEventListener("DOMContentLoaded", function () {
+  var dropdown3 = document.querySelector(".dropdown3");
+  if (dropdown3) {
+    dropdown3.addEventListener("mouseleave", function () {
+      var content = document.getElementById("myDropdown3");
+      if (content) {
+        content.classList.remove("show");
+      }
+    });
+  }
+});
+
+</script>
+
+<header class="govuk-header app-header" role="banner" data-module="govuk-header">
+  <div class="govuk-header__container app-width-container app-header__container header-font header-font-mobile">
+
+    <div class="left-header-group">
+      <div class="govuk-header__logo app-header__logo">
+        <span class="govuk-header__logotype">
+          <a class="govuk-header__link" href="https://example.org/" style="font-weight:400; display: flex; align-items: center;">
+            <img src="www/PLACEHOLDER_LOGO.svg"
+                alt="organisation logo"
+                viewBox="0 0 125 102"
+                class= logo-crest
+                style="margin-right:10px; float:left;" >
+            <span style="line-height: 1.2;">PLACEHOLDER_ORG</span>
+          </a>
+        </span>
+      </div>
+
+      <div class="govuk-header__content inline w-auto sm:w-5/12">
+        <a class="govuk-header__link govuk-header__service-name" href="../England/overview.html">
+          <span style="display: flex; align-items: center;">
+            PLACEHOLDER_TITLE
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<body>
+$for(include-before)$
+$include-before$
+$endfor$
+$if(title)$
+<header id="title-block-header">
+$if(subtitle)$
+<p class="subtitle">$subtitle$</p>
+$endif$
+$for(author)$
+<p class="author">$author$</p>
+$endfor$
+$if(date)$
+<p class="date">$date$</p>
+$endif$
+$if(abstract)$
+<div class="abstract">
+<div class="abstract-title">$abstract-title$</div>
+$abstract$
+</div>
+$endif$
+</header>
+$endif$
+$if(toc)$
+<nav id="$idprefix$TOC" role="doc-toc">
+$if(toc-title)$
+<h2 id="$idprefix$toc-title">$toc-title$</h2>
+$endif$
+$table-of-contents$
+</nav>
+$endif$
+$body$
+$for(include-after)$
+$include-after$
+$endfor$
+</body>
+
+
+
+</html>

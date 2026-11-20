@@ -1,0 +1,92 @@
+IndicatorID,TopicName,IndicatorOrder,TopicOrder,ProfileId
+90366,Life expectancy,1,1,19
+90362,Life expectancy,2,1,19
+92901,Life expectancy,3,1,19
+90825,Life expectancy,4,1,19
+93721,Life expectancy,5,1,19
+108,Life expectancy,6,1,19
+93823,Life expectancy,7,1,19
+93436,Best start in life,8,2,105
+90631,Best start in life,9,2,105
+20401,Best start in life,10,2,105
+20101,Best start in life,11,2,105
+92517,Best start in life,12,2,105
+93932,Best start in life,13,2,105
+92196,Best start in life,14,2,105
+93563,Best start in life,15,2,105
+90284,Best start in life,16,2,105
+92443,Smoking,17,3,18
+91183,Smoking,18,3,18
+94189,Smoking,19,3,18
+93085,Smoking,20,3,18
+93753,Smoking,21,3,18
+93748,Smoking,22,3,18
+1210,Smoking,23,3,18
+94125,Smoking,24,3,18
+90323,Obesity,25,4,32
+90319,Obesity,26,4,32
+94174,Obesity,27,4,32
+93570,Obesity,28,4,32
+93015,Obesity,29,4,32
+93014,Obesity,30,4,32
+93982,Obesity,31,4,32
+93764,Alcohol,32,5,87
+93763,Alcohol,33,5,87
+94191,Alcohol,34,5,87
+94185,Alcohol,35,5,87
+92904,Alcohol,36,5,87
+92778,Alcohol,37,5,87
+93193,Alcohol,38,5,87
+93532,Alcohol,39,5,87
+92447,Alcohol,40,5,87
+90861,Alcohol,41,5,87
+40601,Alcohol,42,5,87
+92323,Alcohol,43,5,87
+93722,Cardiovascular disease,44,6,135
+91101,Cardiovascular disease,45,6,135
+273,Cardiovascular disease,46,6,135
+241,Cardiovascular disease,47,6,135
+212,Cardiovascular disease,48,6,135
+219,Cardiovascular disease,49,6,135
+258,Cardiovascular disease,50,6,135
+262,Cardiovascular disease,51,6,135
+280,Cardiovascular disease,52,6,135
+91167,Cardiovascular disease,53,6,135
+91166,Cardiovascular disease,54,6,135
+93724,Respiratory disease,55,7,29
+90933,Respiratory disease,56,7,29
+90810,Respiratory disease,57,7,29
+253,Respiratory disease,58,7,29
+92302,Respiratory disease,59,7,29
+1204,Respiratory disease,60,7,29
+93574,Respiratory disease,61,7,29
+93999,Respiratory disease,62,7,29
+93723,Cancer,63,8,92
+93671,Cancer,64,8,92
+276,Cancer,65,8,92
+93965,Cancer,66,8,92
+91164,Cancer,67,8,92
+91163,Cancer,68,8,92
+91337,Cancer,69,8,92
+94210,Musculoskeletal health,70,9,76
+93377,Musculoskeletal health,71,9,76
+41401,Musculoskeletal health,72,9,76
+91269,Musculoskeletal health,73,9,76
+90443,Musculoskeletal health,74,9,76
+22304,Mental health and wellbeing,75,10,50
+22303,Mental health and wellbeing,76,10,50
+90581,Mental health and wellbeing,77,10,50
+90813,Mental health and wellbeing,78,10,159
+21001,Mental health and wellbeing,79,10,50
+93581,Mental health and wellbeing,80,10,50
+41001,Mental health and wellbeing,81,10,50
+92899,Wider determinants of health,83,11,130
+94235,Wider determinants of health,82,11,130
+92313,Wider determinants of health,84,11,130
+93701,Wider determinants of health,85,11,130
+93203,Wider determinants of health,86,11,130
+10401,Wider determinants of health,87,11,130
+93736,Wider determinants of health,88,11,130
+93759,Wider determinants of health,89,11,130
+93754,Wider determinants of health,90,11,130
+94175,Wider determinants of health,91,11,130

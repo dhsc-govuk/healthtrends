@@ -1,0 +1,15 @@
+default:
+# run options
+  use_saved_data: TRUE
+  sample: FALSE
+
+production:
+  # input data, specs and templates
+  indicator_spec: "./healthtrendsfiles/IndicatorList.csv" # can be NULL if only using template data
+  # file path signposting
+  input_path: "./input" # path to project input folder relative to project working directory - this could be where the data writes to?
+  output_path: "./output" # path to project output folder relative to project working directory
+  area_codes: "E92000001"
+  # internal
+  base_url: "https://example.com/"
+  api_url: "https://fingertips.phe.org.uk/api/"

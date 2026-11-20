@@ -1,0 +1,177 @@
+{
+    "253": {
+        "LatestChangeTimestampOverride": null,
+        "SpecialCases": null,
+        "AlwaysShowSexWithIndicatorName": false,
+        "AlwaysShowAgeWithIndicatorName": false,
+        "AlwaysShowYearRangeWithIndicatorName": false,
+        "ShouldCountBeDisplayed": true,
+        "DataQualityNote": {
+            "Id": 0,
+            "Text": "None",
+            "Comment": null
+        },
+        "Unit": {
+            "Id": 5,
+            "Value": 100.0,
+            "Label": "%"
+        },
+        "YearType": {
+            "Name": "Financial",
+            "Id": 2
+        },
+        "ValueType": {
+            "Id": 5,
+            "Name": "Proportion"
+        },
+        "ConfidenceIntervalMethod": {
+            "Name": "Wilson Score method",
+            "Description": "A confidence interval is a range of values that is used to quantify the imprecision in the estimate of a particular indicator. Specifically, it quantifies the imprecision that results from random variation in the measurement of the indicator. A wider confidence interval shows that the indicator value presented is likely to be a less precise estimate of the true underlying value.<br><br>The Wilson Score method<sup>1<\/sup> gives very accurate approximate confidence intervals for proportions and odds based on the assumption of a Binomial distribution. It can be used with any data values, even when the denominator is very small and, unlike some methods, it does not fail to give an interval when the numerator count, and therefore the proportion, is zero. The Wilson Score method is the preferred method for calculating confidence intervals for proportions and odds, but it can also be used for rates, as long as the event rate is low (relatively rare events within the population) as the Binomial distribution is a very good approximation to the Poisson distribution when the event rate is low. The method is described in detail in APHO Technical Briefing 3: Commonly used public health statistics and their confidence intervals.<sup>2<\/sup><br><br><sup>1<\/sup> Wilson EB. Probable inference, the law of succession, and statistical inference. <i>J Am Stat Assoc<\/i> 1927;22: 209-12.<br><sup>2<\/sup> Eayres D. <i><a href=\"/documents/APHO%20Tech%20Briefing%203%20Common%20PH%20Stats%20and%20CIs.pdf\">APHO Technical Briefing 3: Commonly used public health statistics and their confidence intervals<\/a><\/i> York: APHO; 2008.",
+            "Id": 1
+        },
+        "IID": 253,
+        "Descriptive": {
+            "Name": "COPD: QOF prevalence",
+            "Definition": "The percentage of patients with COPD, as recorded on practice disease registers.",
+            "Rationale": "Chronic Obstructive Pulmonary Disease (COPD) is a common disabling condition with a high mortality. The most effective treatment is smoking cessation. Oxygen therapy has been shown to prolong life in the later stages of the disease and has also been shown to have a beneficial impact on exercise capacity and mental state. Some patients respond to inhaled steroids. Many patients respond symptomatically to inhaled beta agonists and anti-cholinergics. Pulmonary rehabilitation has been shown to produce an improvement in quality of life.<br /><br />The majority of patients with COPD are managed by GPs and members of the primary healthcare team with onward referral to secondary care when required.",
+            "DataSource": "NHS England",
+            "IndSourceLink": "For all QOF data for the current and for previous years, please see the <a href=\"https://digital.nhs.uk/data-and-information/publications/statistical/quality-and-outcomes-framework-achievement-prevalence-and-exceptions-data/\" target=\"_blank\" rel=\"noopener\">QOF collection pages.<\/a>",
+            "IndMethod": "numerator/denominator * 100",
+            "CountSource": "NHS England (NHSE), Quality and Outcomes Framework (QOF)",
+            "CountDefinition": "Patients with COPD as recorded on practice disease register.",
+            "DenomSource": "NHS England (NHSE), Quality and Outcomes Framework (QOF)",
+            "DenomDefinition": "Total practice list size.",
+            "Notes": "Where local authority values are presented, these are calculated by assigning all patients of the GP to the local authority where the GP practice is located. This is done using the GP&rsquo;s postcode as listed in the ODS epraccur file and linking this to the relevant local authority using the National Statistics Postcode Lookup (NSPL).<br /><br />However, not all GPs are able to be assigned to a local authority/region as the postcode does not appear in the NSPL. In some instances, all GPs in a particular area cannot be assigned to a local authority meaning no data is present for that local authority. The impacted data points have been allocated an appropriate value note.<br /><br />For years where not all GPs are able to be assigned to a local authority/region, the numerator and denominator sums for local authorities/regions will not match England and will be slightly lower.<br /><br />PCN values are not necessarily a perfect match with the values published in QOF because these groups of practices are still changing quite frequently. The aggregated values presented in Fingertips are based on the <a href=\"https://digital.nhs.uk/services/organisation-data-service/file-downloads/gp-and-gp-practice-related-data\" target=\"_blank\" rel=\"noopener\">epcn<\/a> file (v. 26/06/25), which may contain more up-to-date PCN allocations than those found in the latest QOF data files.",
+            "ImpactCovid19": "For 2020/21 QOF data, <a href=\"https://digital.nhs.uk/data-and-information/publications/statistical/quality-and-outcomes-framework-achievement-prevalence-and-exceptions-data/2020-21/\"> NHS Digital<\/a> have stated that changes in QOF during the pandemic mean that indicator data may be inaccurate and comparisons with data from previous years could be misleading. It is important that this caveat is acknowledged when using QOF indicators for 2020/21.",
+            "SimpleName": "Chronic obstructive pulmonary disease prevalence",
+            "SimpleDefinition": "Percentage of patients with chronic obstructive pulmonary disease (COPD) recorded on practice disease register"
+        },
+        "DataChange": {
+            "LastUploadedAt": "2026-04-29T12:05:00",
+            "LastDeletedAt": "0001-01-01T00:00:00"
+        },
+        "InequalitiesExcludedCategoryTypeIds": [
+
+        ]
+    },
+    "20401": {
+        "LatestChangeTimestampOverride": null,
+        "SpecialCases": null,
+        "AlwaysShowSexWithIndicatorName": false,
+        "AlwaysShowAgeWithIndicatorName": false,
+        "AlwaysShowYearRangeWithIndicatorName": false,
+        "ShouldCountBeDisplayed": true,
+        "DataQualityNote": {
+            "Id": 0,
+            "Text": "None",
+            "Comment": null
+        },
+        "Unit": {
+            "Id": 1,
+            "Value": 1000.0,
+            "Label": "per 1,000"
+        },
+        "YearType": {
+            "Name": "Calendar",
+            "Id": 1
+        },
+        "ValueType": {
+            "Id": 3,
+            "Name": "Crude rate"
+        },
+        "ConfidenceIntervalMethod": {
+            "Name": "Byar's method",
+            "Description": "A confidence interval is a range of values that is used to quantify the imprecision in the estimate of a particular indicator. Specifically, it quantifies the imprecision that results from random variation in the measurement of the indicator. A wider confidence interval shows that the indicator value presented is likely to be a less precise estimate of the true underlying value.<br><br>Byar’s method<sup>1<\/sup> gives very accurate approximate confidence intervals for counts based on the assumption of a Poisson distribution. It is sufficiently accurate for counts as low as 10 (below 10, an exact method should be used, based on Poisson tables or the Chi-squared distribution). Byar’s method is the preferred method for calculating confidence intervals for counts, crude rates, indirectly standardised rates and indirectly standardised ratios, but it can also be used for proportions, as long as the proportions are small (much closer to zero than to one) as the Poisson distribution is a very good approximation to the Binomial distribution when the proportion being measured is small. The method is described in detail in APHO Technical Briefing 3: Commonly used public health statistics and their confidence intervals.<sup>2<\/sup><br><br><sup>1<\/sup> Breslow NE, Day NE. <i>Statistical methods in cancer research, volume II: The design and analysis of cohort studies.<\/i> Lyon: International Agency for Research on Cancer, World Health Organization; 1987: 69.<br><sup>2<\/sup> Eayres D. <i><a href=\"/documents/APHO%20Tech%20Briefing%203%20Common%20PH%20Stats%20and%20CIs.pdf\"> APHO Technical Briefing 3: Commonly used public health statistics and their confidence intervals<\/a><\/i> York: APHO; 2008.",
+            "Id": 2
+        },
+        "IID": 20401,
+        "Descriptive": {
+            "Name": "Under 18s conception rate",
+            "Definition": "<p>Conceptions in girls aged under 18 per 1,000 girls aged 15-17<\/p>",
+            "Rationale": "<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Most teenage pregnancies are unplanned and around half end in an abortion. As well as it being an avoidable experience for the young woman, abortions represent an avoidable cost to the NHS. And while for some young women having a child when young can represent a positive turning point in their lives, for many more teenagers bringing up a child is extremely difficult and often results in poor outcomes for both the teenage parent and the child, in terms of the baby's health, the mother's emotional health and wellbeing and the likelihood of both the parent and child living in long-term poverty.<br /><br /><\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Research evidence, particularly from longitudinal studies, shows that teenage pregnancy is associated with poorer outcomes for both young parents and their children. Teenage mothers are less likely to finish their education, are more likely to bring up their child alone and in poverty and have a higher risk of poor mental health than older mothers. Infant mortality rates for babies born to teenage mothers are around 60% higher than for babies born to older mothers. The children of teenage mothers have an increased risk of living in poverty and poor quality housing and are more likely to have accidents and behavioural problems. <br /><br />Teenage pregnancy is included in the Public Health Outcomes Framework as an important public health topic for these reasons.<\/div>",
+            "DataSource": "OHID, based on Office for National Statistics data",
+            "IndMethod": "Crude rate: numerator is divided by denominator and then multiplied by 1,000",
+            "CountSource": "Office for National Statistics (ONS), Conceptions in England and Wales",
+            "CountDefinition": "<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Number of pregnancies that occur in girls aged under 18 and result in either one or more live births or stillbirths or a legal abortion under the Abortion Act 1967.<br /><br />Girls aged 15 to 17 years.<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">&nbsp;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Available from <a href=\"https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/conceptionandfertilityrates/datasets/conceptionstatisticsenglandandwalesreferencetables\" target=\"_blank\" rel=\"noopener\">ONS Conceptions in England and Wales reference tables<\/a>.<\/div>",
+            "DenomSource": "Office for National Statistics (ONS), Mid-year population estimates",
+            "DenomDefinition": "Number of girls aged 15-17 living in the area",
+            "DiscControl": "<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\"><span>Conceptions are covered by the disclosure control protocol for abortion statistics. In August 2024 the disclosure control protocol for abortion statistics was revised: <a href=\"https://www.gov.uk/government/publications/abortion-statistics-protocol-for-the-release-of-personal-data\" target=\"_blank\" rel=\"noopener\">Abortion statistics: protocol for the release of personal data<\/a> <\/span><\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">&nbsp;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\"><span>Secondary suppression has also been applied to avoid the possibility of disclosure by differencing.<\/span><\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">&nbsp;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\"><span>For Isles of Scilly and City of London, no indicator data are presented, to prevent disclosure of small numbers. The estimates for Cornwall and Hackney local authorities are combined data for Cornwall and Isles of Scilly, and City of London and Hackney respectively.<\/span><\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">&nbsp;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\"><span>The Deprivation Decile group aggregates are based on the adjusted local authority figures.<\/span><\/div>",
+            "Caveats": "<p>The date of conception is estimated using recorded gestation for abortions and stillbirths, and assuming 38 weeks gestation for live births. A woman's age at conception is calculated as the number of complete years between her date of birth and the date she conceived. The postcode of the woman&rsquo;s address at time of birth or abortion is used to determine geographical area of residence at time of conception.<\/p>\r\n<p>Only about 5% of under 18 conceptions are to girls aged 14 or under and to include younger age groups in the base population would produce misleading results. The 15-17 age group is effectively treated as population at risk.<br /><br />Deprivation deciles calculations exclude any local authority values that have been suppressed.<\/p>",
+            "Links": "<a style=\"white-space-collapse: preserve;\" href=\"https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/conceptionandfertilityrates/datasets/conceptionstatisticsenglandandwalesreferencetables\" target=\"_blank\" rel=\"noopener\">ONS Conceptions in England and Wales reference tables<\/a>",
+            "RefNum": "C02a",
+            "Notes": "<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\"><strong>Values noted as \"Interpret with caution\"<\/strong><\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Rates which are based on between 3 and 19 conceptions are displayed but are denoted by the \"Interpret with caution\" value note (ID 229) as a warning to the user that their reliability as a measure may be affected by the small number of events.<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">&nbsp;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\"><strong>ICB data<\/strong><\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Data for ICBs is estimated from local authority data. In most cases ICBs are coterminous with local authorities, so the ICB figures are precise. In cases where local authorities cross ICB boundaries, the local authority data are proportionally split between ICBs, based on population located in each ICB.<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">&nbsp;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">The affected ICBs are:<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">&nbsp;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Bath and North East Somerset, Swindon and Wiltshire;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Bedfordshire, Luton and Milton Keynes;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Buckinghamshire, Oxfordshire and Berkshire West;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Cambridgeshire and Peterborough;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Frimley;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Hampshire and Isle of Wight;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Hertfordshire and West Essex;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Humber and North Yorkshire;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Lancashire and South Cumbria;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Mid and South Essex;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Norfolk and Waveney;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">North East and North Cumbria;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Suffolk and North East Essex;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Surrey Heartlands;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">Sussex;<\/div>\r\n<div class=\"ewa-rteLine\" style=\"white-space-collapse: preserve;\">West Yorkshire.<\/div>",
+            "Frequency": "Annual",
+            "SimpleName": "Teenage pregnancy",
+            "SimpleDefinition": "Rate of conceptions in girls aged under 18"
+        },
+        "DataChange": {
+            "LastUploadedAt": "2025-09-24T09:47:33",
+            "LastDeletedAt": "2024-04-29T19:27:47"
+        },
+        "InequalitiesExcludedCategoryTypeIds": [
+
+        ]
+    },
+    "90362": {
+        "LatestChangeTimestampOverride": null,
+        "SpecialCases": "inequalityData_OmitAgeId:-1",
+        "AlwaysShowSexWithIndicatorName": false,
+        "AlwaysShowAgeWithIndicatorName": false,
+        "AlwaysShowYearRangeWithIndicatorName": false,
+        "ShouldCountBeDisplayed": false,
+        "DataQualityNote": {
+            "Id": 0,
+            "Text": "None",
+            "Comment": null
+        },
+        "Unit": {
+            "Id": 11,
+            "Value": 1.0,
+            "Label": "Years"
+        },
+        "YearType": {
+            "Name": "Calendar",
+            "Id": 1
+        },
+        "ValueType": {
+            "Id": 11,
+            "Name": "Life expectancy"
+        },
+        "ConfidenceIntervalMethod": {
+            "Name": "Other method - see below",
+            "Description": null,
+            "Id": 97
+        },
+        "IID": 90362,
+        "Descriptive": {
+            "Name": "Healthy life expectancy at birth",
+            "Definition": "<div>A measure of the average number of years people can expect to live in &lsquo;good&rsquo; general health. For a given area and time period, it estimates how long a newborn would be expected to live in good general health, if current mortality rates and levels of good health remained constant throughout their life.&nbsp;<\/div>\r\n<div>&nbsp;<\/div>\r\n<div>Figures are calculated from deaths from all causes, mid year population estimates, and self-reported general health status, based on data aggregated over a 3-year period. Estimates reflect the prevalence of good health and mortality among those living in an area in each time period. The figures are not therefore the number of years a baby born in the area could actually expect to live in good general health, both because levels of good health and mortality rates of the area are likely to change in the future and because many of those born in the area will live elsewhere for at least some part of their lives.<\/div>",
+            "Rationale": "<p>This indicator is an extremely important summary measure of mortality and morbidity in itself. Healthy life expectancy shows the years a person can expect to live in good health (rather than in poor health).<br /><br />It complements the supporting indicators by showing the overall trends in a major population health measure, setting the context in which local authorities can assess the other indicators and identify the drivers of healthy life expectancy.<\/p>",
+            "DataSource": "Office for National Statistics",
+            "IndSourceLink": "Office for National Statistics (ONS), <a href=\"https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/healthandlifeexpectancies/bulletins/healthstatelifeexpectanciesuk/between2011to2013and2022to2024\" target=\"_blank\" rel=\"noopener\">Health state life expectancies, time series<\/a>; Office for National Statistics (ONS), <a href=\"https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/healthinequalities/datasets/healthylifeexpectancybynationalareadeprivationenglandtimeseries\" target=\"_blank\" rel=\"noopener\">Healthy life expectancy by national area deprivation, England, time series<\/a>",
+            "IndMethod": "<div>Healthy life expectancy is calculated by abridged Sullivan life tables, for males and females separately using 5-year age bands. A Sullivan life table extends the traditional life table by partitioning years lived into favourable and unfavourable health states to provide an estimate of healthy life expectancy for males and females at birth and each geographical unit. In addition to the number of deaths and mid year population estimates used in a traditional life table, the Sullivan life table also incorporates the proportion of people reporting their general health as good or very good. In response to the question &ldquo;How is your health in general; would you say it was&hellip;&rdquo; responses &ldquo;Very good&rdquo; and &ldquo;Good&rdquo; are categorised as &lsquo;Good&rsquo; health and &ldquo;Fair&rdquo;, &ldquo;Bad&rdquo; or &ldquo;Very bad&rdquo; as &lsquo;Not Good&rsquo; health.&nbsp; A life table template which illustrates the method used to calculate healthy life expectancy (and 95 percent confidence intervals) can be found on the <a href=\"https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/healthandsocialcare/healthandlifeexpectancies/datasets/healthstatelifeexpectancytemplate/current/healthstatelifeexpectanciestemplate.xls\" target=\"_blank\" rel=\"noopener\">ONS website<\/a>&nbsp;<\/div>\r\n<div>&nbsp;<\/div>\r\n<div>Estimates of health status are primarily based on self-reported data from the Annual Population Survey, supplemented with data from the 2011 and 2021 Censuses. Modelling and imputation are used to improve estimates for age groups where survey data are limited, particularly for those under 16 and over 85.&nbsp;<\/div>\r\n<div>&nbsp;<\/div>\r\n<div>Further details on the methodology can be found via the <a href=\"https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/healthandlifeexpectancies/bulletins/healthstatelifeexpectanciesuk/between2011to2013and2022to2024\" target=\"_blank\" rel=\"noopener\">ONS report<\/a><\/div>\r\n<div>&nbsp;<\/div>",
+            "CIMethod": "<div>The method used has been documented by <a href=\"https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/healthandlifeexpectancies/methodologies/healthstatelifeexpectanciesukqmi2020to2022\" target=\"_blank\" rel=\"noopener\">ONS&nbsp;<\/a><\/div>",
+            "CountSource": "Office for National Statistics (ONS), Annual mortality extract, Annual Population Survey (APS) and English Census (2011 and 2021) data",
+            "CountDefinition": "Number of deaths registered in the respective calendar years and the prevalence of people reporting good or very good health.&nbsp;",
+            "DenomSource": "Office for National Statistics (ONS), Mid-year population estimates, Annual Population Survey (APS) and English Census (2011 and 2021) data",
+            "DenomDefinition": "ONS mid year population estimates for the respective calendar years, Annual Population Survey and&nbsp; 2011 and 2021 English censuses&nbsp;",
+            "DiscControl": "Disclosure control not applied as the estimates do not reveal any information about individuals.&nbsp;",
+            "Caveats": "The Annual Population Survey excludes residents of communal establishments such as care homes, but does include NHS housing and students in halls of residence where inclusion takes place at their parents address.&nbsp;&nbsp;",
+            "Copyright": "<p>&copy;Crown copyright<\/p>",
+            "Reuse": "You may use and re use Crown copyright information from this website (other than the Royal Arms and departmental or agency logos) free of charge in any format or medium, under the terms and conditions of the Open Government Licence, provided it is reproduced accurately and not used in a misleading context. Where any of the Crown copyright items on this website are being republished or copied to others, the source of the material must be identified and the copyright status acknowledged.",
+            "Links": "<p>Guides to the methods used in calculation of the PHOF overarching indicators are available on the <a href=\"https://fingertips.phe.org.uk/profile/guidance/supporting-information/PH-methods\">Fingertips Guidance - Public Health methods<\/a> page.<\/p>",
+            "RefNum": "A01a",
+            "Notes": "<span data-teams=\"true\"><span>On December 12, 2024, the ONS updated their health state expectancies publication to use a new methodology for estimating the prevalence of \"good\" health. The update was made to reduce the effect of the recent decrease in the APS's sample size. More information can be found in the <\/span><a id=\"menurirs\" class=\"fui-Link ___1q1shib f2hkw1w f3rmtva f1ewtqcl fyind8e f1k6fduh f1w7gpdv fk6fouc fjoy568 figsok6 f1s184ao f1mk8lai fnbmjn9 f1o700av f13mvf36 f1cmlufx f9n3di6 f1ids18y f1tx3yz7 f1deo86v f1eh06m1 f1iescvh fhgqx19 f1olyrje f1p93eir f1nev41a f1h8hb77 f1lqvz6u f10aw75t fsle3fq f17ae5zn\" title=\"https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/healthandlifeexpectancies/methodologies/estimatinggoodhealthprevalenceforuseinhealthylifeexpectancyoutputs\" href=\"https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/healthandlifeexpectancies/methodologies/estimatinggoodhealthprevalenceforuseinhealthylifeexpectancyoutputs\" target=\"_blank\" rel=\"noreferrer noopener\" aria-label=\"Link Estimating &quot;good&quot; health prevalence for use in healthy life expectancy outputs article.\">Estimating \"good\" health prevalence for use in healthy life expectancy outputs article.<\/a><\/span>",
+            "Frequency": "The data will be updated annually.",
+            "SimpleName": "Healthy life expectancy at birth",
+            "SimpleDefinition": "The average number of years people can expect to live in &lsquo;good&rsquo; general health based on contemporary mortality rates and prevalence of self-reported good health."
+        },
+        "DataChange": {
+            "LastUploadedAt": "2026-04-24T13:44:33",
+            "LastDeletedAt": "2025-07-22T09:52:19"
+        },
+        "InequalitiesExcludedCategoryTypeIds": [
+
+        ]
+    }
+}

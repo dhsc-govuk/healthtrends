@@ -1,0 +1,110 @@
+---
+title: "About"
+
+format:
+  html:
+    page-layout: full
+    embed-resources: true
+    anchor-sections: false
+    self-contained: true
+    css: www/styles.css
+    lang: en
+    grid-layout:
+      body: 760px
+    
+template: www/HTS.template
+
+execute:
+  echo: false
+
+---
+
+```{r}
+#| warnings: false
+#| message: false
+#| output: false
+
+
+# set current year
+year <- format(Sys.Date(), "%Y")
+```
+
+::: {.grid}
+::: {.g-col-12 .g-col-sm-3}
+
+```{r sidebar}
+#| results: asis
+
+# Get list of topics
+topics <- healthtrends:::get_indicator_csv(as_df = TRUE)
+
+sidebar_list <- c("Overview", unique(topics$TopicName), "About")
+
+# Create sidebar
+healthtrends:::html_sidebar(topics = sidebar_list, area_name = "England")
+```
+
+:::
+
+::: {.g-col-12 .g-col-sm-9}
+
+<h1>About Health trends in England</h1>
+
+```{r toc}
+#| results: asis
+
+# table of contents
+
+# Get names of all charts to add to subnav list
+sections <- c(
+  "About Health trends in England",
+  "About the data",
+  "Geographies",
+  "Update schedule",
+  "Data visualisations",
+  "Topics",
+  "Citation and reuse"
+)
+
+# Create sidebar
+healthtrends:::html_toc(topic = "About", section_titles = sections)
+```
+
+## About Health trends in England
+
+Health trends in England has been developed to summarise key information about the health of people in England and how it has changed over time. It is intended to provide an overview for the public in an accessible way.
+
+## About the data 
+
+All indicators in Health trends in England are taken from [Fingertips](https://fingertips.phe.org.uk), which is a large public health data collection. Indicators in Fingertips come from a number of different sources. Fingertips indicators have been chosen to show key trends for outcomes relating to the topics presented.
+
+Details about the data sources and indicator calculation methods can be found in the “More information” tab for each indicator that is presented on the detailed page for each topic. In this section, links to the indicator data and definition on Fingertips are available.
+
+## Geographies
+
+To change the area displayed, click the area name in the page title.
+
+## Data visualisations
+
+Health trends in England initially shows an overview page, with a chart for each topic. These charts show the trend for a selected key indicator for the topic. More details for this indicator and other indicators relating to the topic can be found on the detailed page for that topic by clicking the link alongside the chart.
+
+The detailed topic page presents charts and data in table format for each indicator. There are also options to download the data for the chart or to visit Fingertips to see more data and the full definition for the indicator.
+
+## Topics
+
+Topics included in Health trends in England have been chosen to include a broad range of conditions, health outcomes and risk factors for poor health and wellbeing. These topics will continue to be reviewed to ensure they remain relevant.
+
+## Accessibility
+
+These pages had an accessibility audit in May 2024 with the following [results](accessibility.html).
+
+## Citation and reuse
+
+Please cite any use of this website as follows specifying the date of access:
+Department of Health and Social Care. Health trends in England. `r year`
+https://fingertips.phe.org.uk/static-reports/health-trends-in-england/England/overview.html 
+© Crown copyright `r year`
+
+:::
+
+:::

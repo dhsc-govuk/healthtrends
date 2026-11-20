@@ -1,0 +1,213 @@
+---
+title: "Getting started with healthtrends"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with healthtrends}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE,
+  # The examples below download data from the Fingertips API and render Quarto
+  # documents to disk, so they are shown for reference but not run at build time.
+  eval = FALSE
+)
+```
+
+`healthtrends` produces health trend reports based on
+[Health Trends in England](https://fingertips.phe.org.uk/static-reports/health-trends-in-england/England/overview.htm): a set of accessible HTML pages summarising public health indicators. Reports can be produced for England, its statistical regions and upper tier local authorities. It pulls indicator data from the
+[Fingertips API](https://fingertips.phe.org.uk/), applies the project's
+selection and quality rules, and renders the report with Quarto.
+
+This vignette walks through the pipeline end to end:
+
+1. `import_healthtrends_files()` — set up the working directory.
+2. `set_header()` — brand the report (optional).
+3. `get_data()` — fetch and save the indicator data.
+4. `generate_reports()` — render the HTML report.
+
+```{r setup}
+library(healthtrends)
+```
+
+
+## The workflow at a glance
+
+The shortest path to a full report is three calls. `generate_reports()` fetches
+the data for you when `refresh_data = TRUE`, so you do not have to call
+`get_data()` yourself:
+
+```{r glance}
+import_healthtrends_files()
+
+set_header(
+  title   = "Health Trends in England",
+  org     = "Department of Health & Social Care",
+  org_url = "https://www.gov.uk/government/organisations/department-of-health-and-social-care"
+)
+
+generate_reports(
+  area_codes   = c("E92000001", "E12000004"), # England + East Midlands
+  refresh_data = TRUE
+)
+```
+
+The rest of this vignette explains each step and when you would call
+`get_data()` on its own.
+
+
+## 1. Set up the working directory
+
+`import_healthtrends_files()` creates the folder structure the report needs and
+copies in the Quarto templates, CSS and configuration supplied with the package.
+**Run it first** — the other functions expect these folders to be present.
+
+```{r import}
+import_healthtrends_files()
+```
+
+It creates three folders at the top level of your working directory:
+
+* `healthtrendsfiles/` — the Quarto templates, styling and a `data/` folder for
+  the saved dataset.
+* `input/` — a copy of `config.yaml` (used to reach the Fingertips API).
+* `output/` — where the finished HTML report is written.
+
+The `overwrite` argument (default `TRUE`) controls whether the package's own
+template files are refreshed. Use `overwrite = FALSE` to keep any local edits
+you have made inside `healthtrendsfiles/`:
+
+```{r import-nooverwrite}
+import_healthtrends_files(overwrite = FALSE)
+```
+
+If you call it with `overwrite = FALSE` before the folder exists, it stops and
+tells you to run it with `overwrite = TRUE` first.
+
+
+## 2. Brand the report
+
+`set_header()` sets the title, organisation name, organisation link and logo
+shown in the report header. It edits the header template inside
+`healthtrendsfiles/`, so it must be run **after** `import_healthtrends_files()` —
+otherwise it stops with a message asking you to import the files first.
+
+```{r header}
+set_header(
+  title     = "Health Trends in England",
+  org       = "Department of Health & Social Care",
+  org_url   = "https://www.gov.uk/government/organisations/department-of-health-and-social-care",
+  logo_path = "input/logo.svg"
+)
+```
+
+Each argument is optional and only the ones you supply are changed; anything you
+leave as `NULL` keeps its placeholder default. A few notes:
+
+* `logo_path` points at an image file on disk. It is copied into the report's
+  `www/` folder for you, so you do not need to move it manually. Leave it `NULL`
+  to keep the placeholder logo.
+
+You only need to run `set_header()` again if the branding changes; the edited
+header persists in `healthtrendsfiles/` between report runs.
+
+
+## 3. Fetch the data
+
+`get_data()` downloads the indicator data from Fingertips, applies the project's
+quality checks (minimum number of time points, missing-value thresholds and
+regional completeness) and saves the result as a `.rds` file inside
+`healthtrendsfiles/data/`. It also returns the data frame, so you can inspect it.
+
+```{r get-data}
+htie_data <- get_data(
+  area_codes = c("E92000001", "E12000004") # England + East Midlands
+)
+```
+
+Key points:
+
+* **England is always included.** `E92000001` is added automatically if you
+  leave it out, because every indicator is benchmarked against England.
+* **Supported areas.** Only 2023 upper tier local authorities (codes starting
+  `E06`, `E08`, `E09` or `E10`) and statistical regions (codes starting `E12`)
+  are supported. See *Choosing area codes* below.
+* `data_name` sets the output file name (default `"health_trends_data.rds"`).
+  Use a different name to keep a test dataset separate from the main one.
+* `generate_urls = FALSE` skips building the Fingertips link columns (they are
+  created but left as `NA`). This is noticeably faster and is handy when you are
+  only testing the data step.
+
+```{r get-data-test}
+# A quicker run for testing: custom file name, no link columns
+get_data(
+  area_codes    = "E12000004",
+  data_name     = "test_data.rds",
+  generate_urls = FALSE
+)
+```
+
+You usually do not need to call `get_data()` directly.
+`generate_reports(refresh_data = TRUE)` calls it for you. Call it on its own when
+you want to refresh or inspect the dataset without rendering the report — for
+example, to check which indicators survived the quality filters before running a
+full render.
+
+
+## 4. Render the report
+
+`generate_reports()` renders the summary and detail pages to `output/` with
+Quarto. It reads the configuration named by `config_file` (default
+`"input/config.yaml"`, the copy `import_healthtrends_files()` puts in place).
+
+```{r generate}
+generate_reports(
+  area_codes   = c("E92000001", "E12000004"),
+  refresh_data = TRUE,
+  config_file  = "input/config.yaml"
+)
+```
+
+The `refresh_data` argument decides where the data comes from:
+
+* `refresh_data = TRUE` (default) refreshes the dataset from the API first, by
+  calling `get_data()` internally. Use this for a normal run.
+* `refresh_data = FALSE` reuses the existing `.rds` already saved in
+  `healthtrendsfiles/data/`. This is faster and works offline, but stops with an
+  error if no dataset has been created yet.
+
+```{r generate-nofetch}
+# Re-render from the data already on disk, without hitting the API
+generate_reports(
+  area_codes   = c("E92000001", "E12000004"),
+  refresh_data = FALSE
+)
+```
+
+If you call `generate_reports()` with no `area_codes`, it defaults to England
+plus the nine statistical regions.
+
+
+## Choosing area codes
+
+`area_codes` takes 9-character ONS codes. Supported prefixes are:
+
+| Prefix                | Area type                          |
+|-----------------------|------------------------------------|
+| `E92`                 | England (added automatically)      |
+| `E12`                 | Statistical region                 |
+| `E06`, `E08`, `E09`, `E10` | Upper tier local authority (2023 boundaries) |
+
+Two things to watch for:
+
+* **Combined areas.** A few areas are usually reported combined with a
+  neighbour in Fingertips rather than on their own — Isles of Scilly (with
+  Cornwall) and City of London (with Hackney). `generate_reports()` detects
+  these and tells you which code to use instead.
+* **Superseded codes.** Older Barnsley and Sheffield codes are corrected
+  automatically to the codes Fingertips currently holds, so either version works.

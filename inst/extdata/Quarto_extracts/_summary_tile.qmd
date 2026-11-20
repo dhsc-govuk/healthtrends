@@ -1,0 +1,166 @@
+
+
+```{r}
+#| output: false
+
+# get spotlight indicator for selected topic
+spotlight_ind <- spotlight_df |>
+  dplyr::slice(i) |>
+  dplyr::pull(IndicatorID)
+
+# get topic name
+selected_topic <- spotlight_df |>
+  dplyr::slice(i) |>
+  dplyr::pull(TopicName)
+
+# get indicator data
+spotlight_data <- spotlight_df |>
+  dplyr::slice(i) |>
+  dplyr::left_join(
+    all_data,
+    by = c("IndicatorID", "Sex")
+  ) |>
+  dplyr::filter(AreaCode == area_code)
+
+# get chart
+chart <- healthtrends:::spotlight_chart(
+  spotlight_data,
+  spotlight_ind,
+  area_name
+)
+
+chart_title <- unique(spotlight_data$IndicatorName)
+
+# add sex to title if multiple tiles
+if (unique(spotlight_data$multiple_tile)) {
+  chart_title <- paste0(
+    chart_title,
+    ", ",
+    stringr::str_to_lower(unique(spotlight_data$Sex))
+  )
+}
+
+# get original number of sexes for selected indicator
+n_sex <- healthtrends:::ind_n_sex(spotlight_ind, all_data)
+
+```
+
+::: {.g-col-12 .g-col-sm-6 .g-col-lg-4}
+
+```{r}
+#| results: "asis"
+
+# Card styling
+cat(paste0('<div class="card h-100 bg-light">'))
+
+# Theme title
+cat(
+  paste0(
+    '<h2 class="card-header"><a href="',
+    base_url <- config::get(
+      value = "base_url",
+      config = "production"
+    ),
+    stringr::str_replace_all(area_name, " ", "_"), '/',
+    stringr::str_replace_all(stringr::str_to_lower(selected_topic), " ", "_"),
+    '.html">',
+    selected_topic,
+    '</a></h2>'
+  )
+)
+
+# Card styling
+cat(paste0('<div class="card-body d-flex flex-column">'))
+
+# Chart title
+cat(
+  paste0(
+    '<h3 class="card-title"><a class="card-title" href="',
+    base_url <- config::get(
+      value = "base_url",
+      config = "production"
+    ),
+    stringr::str_replace_all(area_name, " ", "_"), '/',
+    stringr::str_replace_all(stringr::str_to_lower(selected_topic), " ", "_"),
+    '.html" tabindex="-1">',
+    chart_title,
+    '</a></h3>'
+  )
+)
+
+# Unit subtitle
+if (any(unique(spotlight_data$Unit) == "%")) {
+  # don't include unit label %
+  cat(
+    paste0(
+      '<p class="card-subtitle">',
+      unique(spotlight_data$ValueType), ", ", area_name, ", ",
+      stringr::str_to_lower(unique(spotlight_data$Sex)), ", ",
+      stringr::str_to_lower(unique(spotlight_data$Age)),
+      "</p>"
+    )
+  )
+} else if (any(unique(spotlight_data$ValueType) == "Life expectancy")) {
+  # don't include value type name to avoid repetition of life expectancy
+  cat(
+    paste0(
+      '<p class="card-subtitle">',
+      unique(spotlight_data$Unit), ", ", area_name, ", ",
+      stringr::str_to_lower(unique(spotlight_data$Sex)), ", ",
+      stringr::str_to_lower(unique(spotlight_data$Age)),
+      "</p>"
+    )
+  )
+} else {
+  cat(
+    paste0(
+      '<p class="card-subtitle">',
+      unique(spotlight_data$ValueType), " ", stringr::str_to_lower(unique(spotlight_data$Unit)), ", ",
+      area_name, ", ", stringr::str_to_lower(unique(spotlight_data$Sex)), ", ",
+      stringr::str_to_lower(unique(spotlight_data$Age)),
+      "</p>"
+    )
+  )
+}
+
+# Chart image
+cat(
+  paste0(
+    '<p><div style="margin-top: auto;">',
+    '[![](', chart, ')',
+    '{fig-alt="', healthtrends:::dynamic_text(spotlight_data, area_name, n_sex),
+    '" tabindex="-1"}]',
+    '(/',
+    base_url <- config::get(
+      value = "base_url",
+      config = "production"
+    ),
+    stringr::str_replace_all(area_name, " ", "_"), '/',
+    stringr::str_replace_all(stringr::str_to_lower(selected_topic), " ", "_"),
+    '.html)',
+    '</div></p>'
+  )
+)
+
+# Link to indicators
+cat(
+  paste0(
+    '<a href="',
+    base_url <- config::get(
+      value = "base_url",
+      config = "production"
+    ),
+    stringr::str_replace_all(area_name, " ", "_"), '/',
+    stringr::str_replace_all(stringr::str_to_lower(selected_topic), " ", "_"),
+    '.html" class="card-link" tabindex="-1"> See more ',
+    stringr::str_to_lower(selected_topic),
+    ' data</a>'
+  )
+)
+
+# Card styling
+cat(paste0("</div></div>"))
+```
+
+:::
+

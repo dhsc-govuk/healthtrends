@@ -1,0 +1,155 @@
+---
+params:
+  area_code: "E92000001"
+  area_name: "England"
+  selected_topic: "Smoking"
+  page_title: "title"
+  data_name: "health_trends_data.rds"
+
+title: "`r params$page_title`"
+
+format:
+  html:
+    page-layout: full
+    embed-resources: true
+    anchor-sections: false
+    css: www/styles.css
+    lang: en
+    grid-layout:
+      body: 760px
+    
+template: www/HTS.template
+
+execute:
+  echo: false
+
+---
+
+```{r}
+#| warnings: false
+#| message: false
+#| output: false
+
+area_code <- params$area_code
+area_name <- params$area_name
+
+# Read in data file
+file_path <- file.path(
+  "healthtrendsfiles",
+  "data",
+  params$data_name
+)
+
+all_data <- readr::read_rds(file_path)
+
+# Get list of indicators associated with topic depending on area type
+topic_inds <- healthtrends:::get_indicators(
+  data_file = file_path,
+  area_code = area_code
+) |>
+  dplyr::filter(TopicName %in% params$selected_topic) |>
+  dplyr::pull(IndicatorID)
+
+topic_data <- all_data |>
+  dplyr::filter(
+    AreaCode == area_code,
+    IndicatorID %in% topic_inds
+  )
+
+# keep only indicators with data for this area, in IndicatorOrder (the order
+# get_indicators() returns) so the charts match the table of contents
+topic_inds <- topic_inds[topic_inds %in% topic_data$IndicatorID]
+```
+
+::: {.grid}
+::: {.g-col-12 .g-col-sm-3}
+
+```{r sidebar}
+#| results: asis
+
+# Get list of topics
+topics <- healthtrends:::get_indicator_csv(as_df = TRUE)
+
+sidebar_list <- c("Overview", unique(topics$TopicName), "About")
+
+# Create sidebar
+healthtrends:::html_sidebar(sidebar_list, params$selected_topic, area_name)
+```
+
+:::
+
+::: {.g-col-12 .g-col-sm-9}
+
+```{r title}
+#| results: asis
+# title with dropdown
+
+# get all area names, ordered England > Region > UTLA
+# (alphabetical within each tier), matching the AreaCode geography prefixes
+# used elsewhere in the package
+all_area_names <- all_data |>
+  dplyr::distinct(AreaCode, AreaName) |>
+  dplyr::mutate(
+    area_rank = dplyr::case_when(
+      stringr::str_sub(AreaCode, 1, 3) == "E92" ~ 1L, # England
+      stringr::str_sub(AreaCode, 1, 3) == "E12" ~ 2L, # Region
+      TRUE ~ 3L                                       # UTLA
+    )
+  ) |>
+  dplyr::arrange(area_rank, AreaName) |>
+  dplyr::pull(AreaName)
+
+healthtrends:::html_title_dropdown(area_name, all_area_names, params$selected_topic)
+
+cat(
+  paste0(
+    '<p class="lead">This page presents information about trends in indicators',
+    " related to ",
+    stringr::str_to_lower(params$selected_topic), ".</p>"
+  )
+)
+```
+
+```{r toc}
+#| results: asis
+# table of contents
+
+# Get names of all charts to add to subnav list
+chart_names <- topic_data |>
+  dplyr::left_join(
+    topics,
+    by = "IndicatorID"
+  ) |>
+  dplyr::select(IndicatorName, IndicatorOrder) |>
+  dplyr::distinct() |>
+  dplyr::arrange(IndicatorOrder) |>
+  dplyr::pull(IndicatorName)
+
+# Create table of contents
+healthtrends:::html_toc(
+  params$selected_topic,
+  area_name,
+  section_titles = chart_names
+)
+```
+
+```{r}
+#| include: false
+#| error: false
+#| warning: false
+# create tile for each topic
+output <- NULL
+
+for (i in seq_along(topic_inds)) {
+  output <- c(
+    output,
+    knitr::knit_child("healthtrendsfiles/Quarto_extracts/_details_chunk.qmd")
+  )
+}
+```
+
+`r paste(output, collapse = "\n")`
+
+:::
+
+:::

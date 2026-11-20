@@ -1,0 +1,56 @@
+[
+    {
+        "Name": "East Midlands region (statistical)",
+        "Short": "East Midlands",
+        "AreaTypeId": 6,
+        "Code": "E12000004"
+    },
+    {
+        "Name": "East of England region (statistical)",
+        "Short": "East of England",
+        "AreaTypeId": 6,
+        "Code": "E12000006"
+    },
+    {
+        "Name": "London region (statistical)",
+        "Short": "London",
+        "AreaTypeId": 6,
+        "Code": "E12000007"
+    },
+    {
+        "Name": "North East region (statistical)",
+        "Short": "North East",
+        "AreaTypeId": 6,
+        "Code": "E12000001"
+    },
+    {
+        "Name": "North West region (statistical)",
+        "Short": "North West",
+        "AreaTypeId": 6,
+        "Code": "E12000002"
+    },
+    {
+        "Name": "South East region (statistical)",
+        "Short": "South East",
+        "AreaTypeId": 6,
+        "Code": "E12000008"
+    },
+    {
+        "Name": "South West region (statistical)",
+        "Short": "South West",
+        "AreaTypeId": 6,
+        "Code": "E12000009"
+    },
+    {
+        "Name": "West Midlands region (statistical)",
+        "Short": "West Midlands",
+        "AreaTypeId": 6,
+        "Code": "E12000005"
+    },
+    {
+        "Name": "Yorkshire and the Humber region (statistical)",
+        "Short": "Yorkshire and the Humber",
+        "AreaTypeId": 6,
+        "Code": "E12000003"
+    }
+]
