@@ -95,7 +95,8 @@ remove_incomplete_region_data <- function(data) {
 #' @param area_codes Character vector of 9-character ONS area codes. Upper
 #'   tier local authorities (2023 boundaries; prefixes "E06", "E08", "E09",
 #'   "E10") and statistical regions ("E12") are supported. England
-#'   ("E92000001") is always included.
+#'   ("E92000001") is always included. If not specified, defaults to England
+#'   and the nine regions.
 #' @param data_name File name for the saved `.rds` file. Defaults to
 #'   `"health_trends_data.rds"`.
 #' @param generate_urls Logical. If `TRUE` (the default), adds Fingertips
@@ -112,10 +113,30 @@ remove_incomplete_region_data <- function(data) {
 #' df <- get_data(area_codes = c("E12000007"), generate_urls = FALSE)
 #' }
 #' @export
-get_data <- function(area_codes,
+get_data <- function(area_codes = NULL,
                      data_name = "health_trends_data.rds",
                      generate_urls = TRUE) {
   # ---- Setup ----
+
+  # If area_codes is NULL, default to England and all regions
+  if (is.null(area_codes)) {
+    area_codes <- c("E92000001", "E12000001", "E12000002", "E12000003",
+                    "E12000004", "E12000005", "E12000006", "E12000007",
+                    "E12000008", "E12000009")
+  }
+
+  # error check for data_name
+  if (((!is.character(data_name)) ||
+                    (str_sub(data_name, -4) != ".rds"))) {
+    stop('data_name must be a character string ending in ".rds"',
+         call. = FALSE)
+  }
+
+  # error check for generate_urls
+  if (!rlang::is_bool(generate_urls)) {
+    stop('The generate_urls argument must be a single TRUE or FALSE value.',
+         call. = FALSE)
+  }
 
   # Force England to be included
   if (!("E92000001" %in% area_codes)) {
