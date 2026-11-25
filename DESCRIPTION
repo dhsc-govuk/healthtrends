@@ -37,11 +37,11 @@ Imports:
     utils,
     stats,
     config,
-    janitor
+    janitor,
+    rlang
 Suggests: 
     httptest,
     knitr,
-    rlang,
     rmarkdown,
     testthat (>= 3.0.0),
     tibble,
