@@ -5,7 +5,7 @@
 \title{Get Health trends data from Fingertips}
 \usage{
 get_data(
-  area_codes,
+  area_codes = NULL,
   data_name = "health_trends_data.rds",
   generate_urls = TRUE
 )
@@ -14,7 +14,8 @@ get_data(
 \item{area_codes}{Character vector of 9-character ONS area codes. Upper
 tier local authorities (2023 boundaries; prefixes "E06", "E08", "E09",
 "E10") and statistical regions ("E12") are supported. England
-("E92000001") is always included.}
+("E92000001") is always included. If not specified, defaults to England
+and the nine regions.}
 
 \item{data_name}{File name for the saved \code{.rds} file. Defaults to
 \code{"health_trends_data.rds"}.}
