@@ -59,10 +59,7 @@ test_that(
 
 data <- tibble(
   IndicatorID = sample(c(253, 20401, 90362), size = 100, replace = TRUE),
-  Sex = sample(c("Male", "Female", "Persons"),
-               size = 100,
-               replace = TRUE,
-               prob = c(0.4, 0.4, 0.2)
+  Sex = sample(c("Male", "Female", "Persons"), size = 100, replace = TRUE, prob = c(0.4, 0.4, 0.2)
   )
 )
 

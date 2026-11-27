@@ -204,7 +204,6 @@ find_other_profile <- function(indicators, areatypeid) {
 #' @return character vector of valid ONS area codes for the given area type(s)
 #' @noRd
 get_valid_area_codes <- function(areatypeids) {
-
   api_url <- config::get(value = "api_url", config = "production")
 
   areatypeids |>
@@ -233,7 +232,7 @@ get_valid_area_codes <- function(areatypeids) {
 correct_superseded_codes <- function(area_codes) {
   superseded_areas <- data.frame(
     new_code = c("E08000038", "E08000039"),
-    name     = c("Barnsley",  "Sheffield"),
+    name = c("Barnsley", "Sheffield"),
     old_code = c("E08000016", "E08000019"),
     stringsAsFactors = FALSE
   )
@@ -241,7 +240,6 @@ correct_superseded_codes <- function(area_codes) {
   superseded_hits <- superseded_areas[superseded_areas$new_code %in% area_codes, ]
 
   if (nrow(superseded_hits) > 0) {
-
     # swap each superseded code for the code Fingertips still reports against
     idx <- match(area_codes, superseded_hits$new_code)
     area_codes[!is.na(idx)] <- superseded_hits$old_code[idx[!is.na(idx)]]
@@ -306,8 +304,10 @@ tp_threshold_check <- function(data, tp_area_codes, tp_threshold) {
       .data$Age,
       .data$YearRange
     ) |>
-    summarise(n = n_distinct(.data$Timeperiod),
-              .groups = "drop_last") |>
+    summarise(
+      n = n_distinct(.data$Timeperiod),
+      .groups = "drop_last"
+    ) |>
     filter(.data$AreaCode %in% tp_area_codes) |>
     filter(n < tp_threshold)
 
@@ -339,8 +339,10 @@ na_threshold_check <- function(data, na_area_codes, na_threshold) {
       .data$Age,
       .data$YearRange
     ) |>
-    summarise(non_na = sum(!is.na(.data$Value)),
-              .groups = "drop_last") |>
+    summarise(
+      non_na = sum(!is.na(.data$Value)),
+      .groups = "drop_last"
+    ) |>
     filter(.data$AreaCode %in% na_area_codes) |>
     filter(non_na < na_threshold)
 
@@ -640,7 +642,7 @@ fingertips_link <- function(data, data_name) {
   # filter for profiles used in HtiE data
   link_df <- distinct_link_df |>
     left_join(url_prof_df,
-              by = join_by("IndicatorID", "OwnerProfileName" == "ProfileName")
+      by = join_by("IndicatorID", "OwnerProfileName" == "ProfileName")
     )
 
   # beginning of url
@@ -835,7 +837,7 @@ lowercase_except_acronyms <- function(text) {
       # two or more consecutive capital letters or capital letters separated
       # by dots
     } else if (str_detect(w, "[A-Z]{2,}") ||
-               str_detect(w, "([A-Z]\\.){2,}")) {
+                 str_detect(w, "([A-Z]\\.){2,}")) {
       processed_word <- w
       # include acronym warning
       warning(
@@ -973,7 +975,7 @@ get_indicators <- function(data_file = "health_trends_data.rds",
                            topic_names = FALSE) {
   # Validate arguments
   if (!is.character(data_file) ||
-      length(data_file) != 1L || is.na(data_file)) {
+        length(data_file) != 1L || is.na(data_file)) {
     rlang::abort("`data_file` must be a single character string.")
   }
 
@@ -986,7 +988,7 @@ get_indicators <- function(data_file = "health_trends_data.rds",
   }
 
   if (!is.logical(topic_names) ||
-      length(topic_names) != 1L || is.na(topic_names)) {
+        length(topic_names) != 1L || is.na(topic_names)) {
     rlang::abort("`topic_names` must be TRUE or FALSE.")
   }
 
@@ -1060,7 +1062,6 @@ format_area_name <- function(area_name) {
 #'   area
 #' @noRd
 get_area_indicators <- function(all_data, area_code) {
-
   indicator_df <- get_indicator_csv(as_df = TRUE)
 
   area_indicators <- all_data |>
@@ -1094,7 +1095,6 @@ get_area_indicators <- function(all_data, area_code) {
 #'   requires more than one summary page tile
 #' @noRd
 get_spotlight_df <- function(all_data, area_code, spotlight) {
-
   area_indicators <- get_area_indicators(
     all_data = all_data,
     area_code = area_code
@@ -1215,8 +1215,8 @@ data_table <- function(ind_data, area_code, area_name, n_sex) {
       )
 
     names(table) <- ifelse(names(table) %in% "Value",
-                           paste0(area_name, " Value"),
-                           names(table)
+      paste0(area_name, " Value"),
+      names(table)
     )
   }
 
@@ -1523,7 +1523,6 @@ set_header <- function(title = NULL,
                        org = NULL,
                        org_url = NULL,
                        logo_path = NULL) {
-
   # Check that healthtrendsfiles have been imported
   if (!dir.exists(path_wd("healthtrendsfiles"))) {
     stop(
@@ -1588,7 +1587,6 @@ set_header <- function(title = NULL,
       paste0(c(title_msg, org_msg, org_url_msg, logo_path_msg), collapse = "\n")
     )
   }
-
 }
 
 #------------------------------------------------------------------------------#
@@ -1620,6 +1618,6 @@ get_data_path <- function(data_name = "health_trends_data.rds") {
 area_type_lookup <- function() {
   tibble(
     prefix     = c("E92", "E12", "E06", "E08", "E09", "E10"),
-    AreaTypeID = c(15,    6,     502,   502,   502,   502)
+    AreaTypeID = c(15, 6, 502, 502, 502, 502)
   )
 }

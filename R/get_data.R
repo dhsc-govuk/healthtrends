@@ -142,7 +142,7 @@ get_data <- function(area_codes,
   tp_threshold_lower <- 2 # all geogs below upper geog
 
   # Set threshold for the minimum number of non-na values
-  na_threshold_upper <-  4 # upper geog
+  na_threshold_upper <- 4 # upper geog
   na_threshold_lower <- 2 # all geogs below upper geog
 
   # Upper (top-level) geography used for the time point threshold check.
@@ -171,9 +171,9 @@ get_data <- function(area_codes,
   end_time <- Sys.time()
   duration <- round(difftime(end_time, start_time, units = "mins"), 2)
   cat("  Metadata generation completed in ",
-      duration,
-      " minutes\n",
-      sep = ""
+    duration,
+    " minutes\n",
+    sep = ""
   )
 
 
@@ -189,9 +189,9 @@ get_data <- function(area_codes,
   end_time <- Sys.time()
   duration <- round(difftime(end_time, start_time, units = "mins"), 2)
   cat("  Profiles ID generation completed in ",
-      duration,
-      " minutes\n",
-      sep = ""
+    duration,
+    " minutes\n",
+    sep = ""
   )
 
 
@@ -254,8 +254,10 @@ get_data <- function(area_codes,
   miss_yr <- setdiff(unique(df$IndicatorID), unique(df_yr$IndicatorID))
 
   if (length(miss_yr) > 0) {
-    warning(paste0("The following indicators do not have annual data and have been removed: \n",
-                   paste(miss_yr, collapse = ", ")))
+    warning(paste0(
+      "The following indicators do not have annual data and have been removed: \n",
+      paste(miss_yr, collapse = ", ")
+    ))
   }
 
   # filter to "Persons" as default
@@ -272,21 +274,25 @@ get_data <- function(area_codes,
   # ---- Core formatting ----
   # format data frame
   df_selected <- df_sex |>
-    mutate(AreaName = str_remove_all(.data$AreaName,
-                                     " region \\(statistical\\)")) |>
-    select("IndicatorID",
-           "IndicatorName",
-           "AreaCode",
-           "AreaName",
-           "AreaType",
-           "Timeperiod",
-           "Sex",
-           "Age",
-           "Value",
-           "LowerCI95.0limit",
-           "UpperCI95.0limit",
-           "Count",
-           "TimeperiodSortable") |>
+    mutate(AreaName = str_remove_all(
+      .data$AreaName,
+      " region \\(statistical\\)"
+    )) |>
+    select(
+      "IndicatorID",
+      "IndicatorName",
+      "AreaCode",
+      "AreaName",
+      "AreaType",
+      "Timeperiod",
+      "Sex",
+      "Age",
+      "Value",
+      "LowerCI95.0limit",
+      "UpperCI95.0limit",
+      "Count",
+      "TimeperiodSortable"
+    ) |>
     distinct()
 
 
@@ -315,9 +321,11 @@ get_data <- function(area_codes,
 
   # add a completed TimeperiodSortable column
   complete_trend_df <- complete_trend_df |>
-    mutate(TimeperiodSortable = str_remove(.data$Timeperiod, "^[^0-9]*"),
-           TimeperiodSortable = str_sub(.data$TimeperiodSortable, start = 1, end = 4),
-           TimeperiodSortable = as.integer(.data$TimeperiodSortable) * 10000)
+    mutate(
+      TimeperiodSortable = str_remove(.data$Timeperiod, "^[^0-9]*"),
+      TimeperiodSortable = str_sub(.data$TimeperiodSortable, start = 1, end = 4),
+      TimeperiodSortable = as.integer(.data$TimeperiodSortable) * 10000
+    )
 
   complete_trend_area <- df_remove |>
     select("IndicatorID", "AreaCode") |>
@@ -341,17 +349,21 @@ get_data <- function(area_codes,
 
   add_tps <- df_remove |>
     right_join(complete_trend_area,
-               by = join_by("IndicatorID",
-                            "Timeperiod",
-                            "AreaCode",
-                            "Sex",
-                            "Age",
-                            "TimeperiodSortable")
+      by = join_by(
+        "IndicatorID",
+        "Timeperiod",
+        "AreaCode",
+        "Sex",
+        "Age",
+        "TimeperiodSortable"
+      )
     ) |>
-    select("IndicatorID",
-           "AreaCode",
-           "Timeperiod":"TimeperiodOrder",
-           "TimeperiodSortable")
+    select(
+      "IndicatorID",
+      "AreaCode",
+      "Timeperiod":"TimeperiodOrder",
+      "TimeperiodSortable"
+    )
 
   # add complete timeperiod rows to dataframe and include only main age category
   df_tp <- df_remove |>
@@ -412,13 +424,15 @@ get_data <- function(area_codes,
   # Remove indicators which are below lower geog threshold for those areas only
   df_threshold_lower <- df_threshold_upper |>
     anti_join(below_lower_threshold_df,
-              by = join_by("IndicatorID",
-                           "AreaCode",
-                           "Sex",
-                           "Age"))
+      by = join_by(
+        "IndicatorID",
+        "AreaCode",
+        "Sex",
+        "Age"
+      )
+    )
 
   if (nrow(below_lower_threshold_df) > 0) {
-
     removed_tp_text <- below_lower_threshold_df |>
       distinct(AreaName, IndicatorID) |>
       group_by(AreaName) |>
@@ -485,13 +499,15 @@ get_data <- function(area_codes,
   # Remove indicators which are below lower geog threshold for those areas only
   df_na_threshold_lower <- df_na_threshold_upper |>
     anti_join(below_lower_na_threshold_df,
-              by = join_by("IndicatorID",
-                           "AreaCode",
-                           "Sex",
-                           "Age"))
+      by = join_by(
+        "IndicatorID",
+        "AreaCode",
+        "Sex",
+        "Age"
+      )
+    )
 
   if (nrow(below_lower_na_threshold_df) > 0) {
-
     removed_na_text <- below_lower_na_threshold_df |>
       distinct(AreaName, IndicatorID) |>
       group_by(AreaName) |>
