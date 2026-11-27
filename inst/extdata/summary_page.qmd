@@ -33,12 +33,8 @@ execute:
 area_code <- params$area_code
 area_name <- params$area_name
 
-# Read in data file
-file_path <- file.path(
-  "healthtrendsfiles",
-  "data",
-  params$data_name
-)
+# Read in data file from the output folder (output_path in the config)
+file_path <- healthtrends:::get_data_path(params$data_name)
 
 all_data <- readr::read_rds(file_path)
 

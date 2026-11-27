@@ -19,9 +19,9 @@ tier local authorities (2023 boundaries; prefixes "E06", "E08", "E09",
 regions.}
 
 \item{refresh_data}{Logical. If \code{TRUE} (the default), pulls fresh data from
-the Fingertips API and saves it to
-\code{healthtrendsfiles/data/health_trends_data.rds}. If \code{FALSE}, reuses that
-file, which must already exist.}
+the Fingertips API and saves it as \code{health_trends_data.rds} in the output
+folder (\code{output_path} in the config file). If \code{FALSE}, reuses that file,
+which must already exist.}
 
 \item{config_file}{Path to the config YAML file. Defaults to
 \code{"input/config.yaml"}, which \code{\link[=import_healthtrends_files]{import_healthtrends_files()}} creates.}

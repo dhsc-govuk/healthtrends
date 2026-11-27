@@ -60,9 +60,9 @@ test_that(
 data <- tibble(
   IndicatorID = sample(c(253, 20401, 90362), size = 100, replace = TRUE),
   Sex = sample(c("Male", "Female", "Persons"),
-    size = 100,
-    replace = TRUE,
-    prob = c(0.4, 0.4, 0.2)
+               size = 100,
+               replace = TRUE,
+               prob = c(0.4, 0.4, 0.2)
   )
 )
 
@@ -1224,4 +1224,42 @@ test_that("get_spotlight_df selects one indicator per topic", {
     n_distinct(spotlight_df$IndicatorID),
     n_distinct(spotlight_df$TopicName)
   )
+})
+
+
+# get_data_path ----------------------------------------------------------------
+test_that("get_data_path builds the path from output_path in config", {
+  testthat::local_mocked_bindings(
+    get = function(value, ...) {
+      expect_equal(value, "output_path")
+      "output/2026-11-26"
+    },
+    .package = "config"
+  )
+
+  expect_equal(
+    get_data_path("my_data.rds"),
+    file.path("output/2026-11-26", "my_data.rds")
+  )
+})
+
+test_that("get_data_path defaults to health_trends_data.rds", {
+  testthat::local_mocked_bindings(
+    get = function(...) "output",
+    .package = "config"
+  )
+
+  expect_equal(
+    get_data_path(),
+    file.path("output", "health_trends_data.rds")
+  )
+})
+
+test_that("get_data_path no longer points at healthtrendsfiles/data", {
+  testthat::local_mocked_bindings(
+    get = function(...) "output",
+    .package = "config"
+  )
+
+  expect_no_match(get_data_path(), "healthtrendsfiles")
 })

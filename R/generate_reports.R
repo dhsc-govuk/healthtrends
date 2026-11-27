@@ -37,7 +37,7 @@ try_catch_summary_page <- function(area_code,
       if (
         !(
           str_replace_all(area_name, " ", "_") %in%
-            list.dirs(output_path, full.names = FALSE)
+          list.dirs(output_path, full.names = FALSE)
         )
       ) {
         dir.create(paste0(output_path, "/", str_replace_all(area_name, " ", "_")))
@@ -107,7 +107,7 @@ try_catch_details_page <- function(topic,
       if (
         !(
           str_replace_all(area_name, " ", "_") %in%
-            list.dirs(output_path, full.names = FALSE)
+          list.dirs(output_path, full.names = FALSE)
         )
       ) {
         dir.create(paste0(output_path, "/", str_replace_all(area_name, " ", "_")))
@@ -178,9 +178,9 @@ fix_root_page_links <- function(html_path) {
 #'   ("E92000001") is always included. Defaults to England and the nine
 #'   regions.
 #' @param refresh_data Logical. If `TRUE` (the default), pulls fresh data from
-#'   the Fingertips API and saves it to
-#'   `healthtrendsfiles/data/health_trends_data.rds`. If `FALSE`, reuses that
-#'   file, which must already exist.
+#'   the Fingertips API and saves it as `health_trends_data.rds` in the output
+#'   folder (`output_path` in the config file). If `FALSE`, reuses that file,
+#'   which must already exist.
 #' @param config_file Path to the config YAML file. Defaults to
 #'   `"input/config.yaml"`, which [import_healthtrends_files()] creates.
 #'
@@ -194,20 +194,20 @@ fix_root_page_links <- function(html_path) {
 #' }
 #' @export
 generate_reports <- function(
-  area_codes = c("E92000001", "E12000001", "E12000002", "E12000003",
-                 "E12000004", "E12000005", "E12000006", "E12000007",
-                 "E12000008", "E12000009"),
-  refresh_data = TRUE,
-  config_file = "input/config.yaml"
+    area_codes = c("E92000001", "E12000001", "E12000002", "E12000003",
+                   "E12000004", "E12000005", "E12000006", "E12000007",
+                   "E12000008", "E12000009"),
+    refresh_data = TRUE,
+    config_file = "input/config.yaml"
 ) {
   # set config for session
   set_config(config_nm = "config", config_file = config_file)
 
   # Check area codes are correct type
   if (!is.character(area_codes) ||
-        !isTRUE(all(nchar(area_codes) == 9)) ||
-        !isTRUE(all(str_sub(area_codes, 1, 3) %in%
-                      c("E06", "E08", "E09", "E10", "E12", "E92")))) {
+      !isTRUE(all(nchar(area_codes) == 9)) ||
+      !isTRUE(all(str_sub(area_codes, 1, 3) %in%
+                  c("E06", "E08", "E09", "E10", "E12", "E92")))) {
 
     stop(
       "area_codes should be a character vector or 9 digit ONS areacodes. ",
@@ -324,7 +324,7 @@ generate_reports <- function(
   data_name <- "health_trends_data.rds"
 
   # check data exists or create data
-  if (!refresh_data && !file.exists(file.path("healthtrendsfiles", "data", data_name))) {
+  if (!refresh_data && !file.exists(get_data_path(data_name))) {
     rlang::abort(
       "Dataset does not exist. Set `refresh_data = TRUE` to create it."
     )
@@ -339,7 +339,7 @@ generate_reports <- function(
   }
 
   # Read in data file
-  file_path <- file.path("healthtrendsfiles", "data", data_name)
+  file_path <- get_data_path(data_name)
   all_data <- readr::read_rds(file_path) |>
     filter(.data$AreaCode %in% area_codes)
 

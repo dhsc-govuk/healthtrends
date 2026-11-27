@@ -26,13 +26,14 @@ added but filled with \code{NA}, which makes the run faster when testing.}
 \value{
 A data frame with one row per indicator, area, sex and time period,
 containing values, confidence limits, indicator metadata and Fingertips
-URLs. The same data frame is saved to \verb{healthtrendsfiles/data/<data_name>}.
+URLs. The same data frame is saved to \verb{<output_path>/<data_name>}.
 }
 \description{
 \code{get_data()} pulls data and metadata for every indicator in the indicator
 specification CSV from the Fingertips API, for England and the requested
 areas. It applies the HtiE filtering rules, adds Fingertips link columns
-and saves the result to \verb{healthtrendsfiles/data/<data_name>}.
+and saves the result to \verb{<output_path>/<data_name>}, where \code{output_path}
+is set in the config file.
 }
 \examples{
 \dontrun{

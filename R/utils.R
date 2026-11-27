@@ -640,7 +640,7 @@ fingertips_link <- function(data, data_name) {
   # filter for profiles used in HtiE data
   link_df <- distinct_link_df |>
     left_join(url_prof_df,
-      by = join_by("IndicatorID", "OwnerProfileName" == "ProfileName")
+              by = join_by("IndicatorID", "OwnerProfileName" == "ProfileName")
     )
 
   # beginning of url
@@ -835,7 +835,7 @@ lowercase_except_acronyms <- function(text) {
       # two or more consecutive capital letters or capital letters separated
       # by dots
     } else if (str_detect(w, "[A-Z]{2,}") ||
-                 str_detect(w, "([A-Z]\\.){2,}")) {
+               str_detect(w, "([A-Z]\\.){2,}")) {
       processed_word <- w
       # include acronym warning
       warning(
@@ -973,7 +973,7 @@ get_indicators <- function(data_file = "health_trends_data.rds",
                            topic_names = FALSE) {
   # Validate arguments
   if (!is.character(data_file) ||
-        length(data_file) != 1L || is.na(data_file)) {
+      length(data_file) != 1L || is.na(data_file)) {
     rlang::abort("`data_file` must be a single character string.")
   }
 
@@ -986,7 +986,7 @@ get_indicators <- function(data_file = "health_trends_data.rds",
   }
 
   if (!is.logical(topic_names) ||
-        length(topic_names) != 1L || is.na(topic_names)) {
+      length(topic_names) != 1L || is.na(topic_names)) {
     rlang::abort("`topic_names` must be TRUE or FALSE.")
   }
 
@@ -1215,8 +1215,8 @@ data_table <- function(ind_data, area_code, area_name, n_sex) {
       )
 
     names(table) <- ifelse(names(table) %in% "Value",
-      paste0(area_name, " Value"),
-      names(table)
+                           paste0(area_name, " Value"),
+                           names(table)
     )
   }
 
@@ -1589,6 +1589,22 @@ set_header <- function(title = NULL,
     )
   }
 
+}
+
+#------------------------------------------------------------------------------#
+#' Path to the saved Health trends data file
+#'
+#' `get_data_path` returns the location of the data file created by
+#' [get_data()]. The file is saved in the output folder set by `output_path`
+#' in the config file, alongside the rendered reports. Single source of truth
+#' for this path, used by `get_data` and `generate_reports`.
+#'
+#' @param data_name character string, file name of the data file
+#' @return character string, file path to the data file
+#' @noRd
+get_data_path <- function(data_name = "health_trends_data.rds") {
+  output_path <- config::get(value = "output_path", config = "production")
+  file.path(output_path, data_name)
 }
 
 #------------------------------------------------------------------------------#

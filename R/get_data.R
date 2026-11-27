@@ -90,7 +90,8 @@ remove_incomplete_region_data <- function(data) {
 #' `get_data()` pulls data and metadata for every indicator in the indicator
 #' specification CSV from the Fingertips API, for England and the requested
 #' areas. It applies the HtiE filtering rules, adds Fingertips link columns
-#' and saves the result to `healthtrendsfiles/data/<data_name>`.
+#' and saves the result to `<output_path>/<data_name>`, where `output_path`
+#' is set in the config file.
 #'
 #' @param area_codes Character vector of 9-character ONS area codes. Upper
 #'   tier local authorities (2023 boundaries; prefixes "E06", "E08", "E09",
@@ -104,7 +105,7 @@ remove_incomplete_region_data <- function(data) {
 #'
 #' @return A data frame with one row per indicator, area, sex and time period,
 #'   containing values, confidence limits, indicator metadata and Fingertips
-#'   URLs. The same data frame is saved to `healthtrendsfiles/data/<data_name>`.
+#'   URLs. The same data frame is saved to `<output_path>/<data_name>`.
 #'
 #' @examples
 #' \dontrun{
@@ -170,9 +171,9 @@ get_data <- function(area_codes,
   end_time <- Sys.time()
   duration <- round(difftime(end_time, start_time, units = "mins"), 2)
   cat("  Metadata generation completed in ",
-    duration,
-    " minutes\n",
-    sep = ""
+      duration,
+      " minutes\n",
+      sep = ""
   )
 
 
@@ -188,9 +189,9 @@ get_data <- function(area_codes,
   end_time <- Sys.time()
   duration <- round(difftime(end_time, start_time, units = "mins"), 2)
   cat("  Profiles ID generation completed in ",
-    duration,
-    " minutes\n",
-    sep = ""
+      duration,
+      " minutes\n",
+      sep = ""
   )
 
 
@@ -340,12 +341,12 @@ get_data <- function(area_codes,
 
   add_tps <- df_remove |>
     right_join(complete_trend_area,
-      by = join_by("IndicatorID",
-                   "Timeperiod",
-                   "AreaCode",
-                   "Sex",
-                   "Age",
-                   "TimeperiodSortable")
+               by = join_by("IndicatorID",
+                            "Timeperiod",
+                            "AreaCode",
+                            "Sex",
+                            "Age",
+                            "TimeperiodSortable")
     ) |>
     select("IndicatorID",
            "AreaCode",
@@ -605,8 +606,8 @@ get_data <- function(area_codes,
 
   # could also exclude: "AreaCode", "AreaType", "OwnerProfileName"
 
-  # save the data into an rds file
-  file_path <- file.path("healthtrendsfiles", "data", data_name)
+  # save the data into an rds file in the output folder
+  file_path <- get_data_path(data_name)
 
   readr::write_rds(df, file_path)
 
