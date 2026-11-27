@@ -5,8 +5,7 @@
 \title{Generate the Health trends in England reports}
 \usage{
 generate_reports(
-  area_codes = c("E92000001", "E12000001", "E12000002", "E12000003", "E12000004",
-    "E12000005", "E12000006", "E12000007", "E12000008", "E12000009"),
+  area_codes = NULL,
   refresh_data = TRUE,
   config_file = "input/config.yaml"
 )
@@ -16,7 +15,9 @@ generate_reports(
 tier local authorities (2023 boundaries; prefixes "E06", "E08", "E09",
 "E10") and statistical regions ("E12") are supported. England
 ("E92000001") is always included. Defaults to England and the nine
-regions.}
+regions. If \code{NULL}, area codes are taken
+from the config file. If not specified there, defaults to England
+and the nine regions.}
 
 \item{refresh_data}{Logical. If \code{TRUE} (the default), pulls fresh data from
 the Fingertips API and saves it to

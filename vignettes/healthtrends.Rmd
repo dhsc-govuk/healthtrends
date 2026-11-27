@@ -189,9 +189,29 @@ generate_reports(
 )
 ```
 
-If you call `generate_reports()` with no `area_codes`, it defaults to England
-plus the nine statistical regions.
+If you call `generate_reports()` with no `area_codes`, the function looks
+for `area_codes` in the config file. If neither is specified, it defaults to
+England and the nine statistical regions.
 
+To specify area codes in `input/config.yaml`, add them under `production`:
+
+```yaml
+production:
+  area_codes:
+    - "E92000001"
+    - "E12000004"
+```
+
+You can then run:
+
+```{r generate-from-config, eval=FALSE}
+generate_reports(
+  refresh_data = TRUE
+)
+```
+
+Area codes passed directly to `generate_reports()` take priority over those
+in the config file.
 
 ## Choosing area codes
 
