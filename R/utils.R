@@ -204,7 +204,6 @@ find_other_profile <- function(indicators, areatypeid) {
 #' @return character vector of valid ONS area codes for the given area type(s)
 #' @noRd
 get_valid_area_codes <- function(areatypeids) {
-
   api_url <- config::get(value = "api_url", config = "production")
 
   areatypeids |>
@@ -233,7 +232,7 @@ get_valid_area_codes <- function(areatypeids) {
 correct_superseded_codes <- function(area_codes) {
   superseded_areas <- data.frame(
     new_code = c("E08000038", "E08000039"),
-    name     = c("Barnsley",  "Sheffield"),
+    name = c("Barnsley", "Sheffield"),
     old_code = c("E08000016", "E08000019"),
     stringsAsFactors = FALSE
   )
@@ -241,7 +240,6 @@ correct_superseded_codes <- function(area_codes) {
   superseded_hits <- superseded_areas[superseded_areas$new_code %in% area_codes, ]
 
   if (nrow(superseded_hits) > 0) {
-
     # swap each superseded code for the code Fingertips still reports against
     idx <- match(area_codes, superseded_hits$new_code)
     area_codes[!is.na(idx)] <- superseded_hits$old_code[idx[!is.na(idx)]]
@@ -306,8 +304,10 @@ tp_threshold_check <- function(data, tp_area_codes, tp_threshold) {
       .data$Age,
       .data$YearRange
     ) |>
-    summarise(n = n_distinct(.data$Timeperiod),
-              .groups = "drop_last") |>
+    summarise(
+      n = n_distinct(.data$Timeperiod),
+      .groups = "drop_last"
+    ) |>
     filter(.data$AreaCode %in% tp_area_codes) |>
     filter(n < tp_threshold)
 
@@ -339,8 +339,10 @@ na_threshold_check <- function(data, na_area_codes, na_threshold) {
       .data$Age,
       .data$YearRange
     ) |>
-    summarise(non_na = sum(!is.na(.data$Value)),
-              .groups = "drop_last") |>
+    summarise(
+      non_na = sum(!is.na(.data$Value)),
+      .groups = "drop_last"
+    ) |>
     filter(.data$AreaCode %in% na_area_codes) |>
     filter(non_na < na_threshold)
 
@@ -1060,7 +1062,6 @@ format_area_name <- function(area_name) {
 #'   area
 #' @noRd
 get_area_indicators <- function(all_data, area_code) {
-
   indicator_df <- get_indicator_csv(as_df = TRUE)
 
   area_indicators <- all_data |>
@@ -1094,7 +1095,6 @@ get_area_indicators <- function(all_data, area_code) {
 #'   requires more than one summary page tile
 #' @noRd
 get_spotlight_df <- function(all_data, area_code, spotlight) {
-
   area_indicators <- get_area_indicators(
     all_data = all_data,
     area_code = area_code
@@ -1523,7 +1523,6 @@ set_header <- function(title = NULL,
                        org = NULL,
                        org_url = NULL,
                        logo_path = NULL) {
-
   # Check that healthtrendsfiles have been imported
   if (!dir.exists(path_wd("healthtrendsfiles"))) {
     stop(
@@ -1588,7 +1587,22 @@ set_header <- function(title = NULL,
       paste0(c(title_msg, org_msg, org_url_msg, logo_path_msg), collapse = "\n")
     )
   }
+}
 
+#------------------------------------------------------------------------------#
+#' Path to the saved Health trends data file
+#'
+#' `get_data_path` returns the location of the data file created by
+#' [get_data()]. The file is saved in the output folder set by `output_path`
+#' in the config file, alongside the rendered reports. Single source of truth
+#' for this path, used by `get_data` and `generate_reports`.
+#'
+#' @param data_name character string, file name of the data file
+#' @return character string, file path to the data file
+#' @noRd
+get_data_path <- function(data_name = "health_trends_data.rds") {
+  output_path <- config::get(value = "output_path", config = "production")
+  file.path(output_path, data_name)
 }
 
 #------------------------------------------------------------------------------#
@@ -1604,6 +1618,6 @@ set_header <- function(title = NULL,
 area_type_lookup <- function() {
   tibble(
     prefix     = c("E92", "E12", "E06", "E08", "E09", "E10"),
-    AreaTypeID = c(15,    6,     502,   502,   502,   502)
+    AreaTypeID = c(15, 6, 502, 502, 502, 502)
   )
 }

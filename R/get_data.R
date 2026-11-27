@@ -90,7 +90,8 @@ remove_incomplete_region_data <- function(data) {
 #' `get_data()` pulls data and metadata for every indicator in the indicator
 #' specification CSV from the Fingertips API, for England and the requested
 #' areas. It applies the HtiE filtering rules, adds Fingertips link columns
-#' and saves the result to `healthtrendsfiles/data/<data_name>`.
+#' and saves the result to `<output_path>/<data_name>`, where `output_path`
+#' is set in the config file.
 #'
 #' @param area_codes Character vector of 9-character ONS area codes. Upper
 #'   tier local authorities (2023 boundaries; prefixes "E06", "E08", "E09",
@@ -104,7 +105,7 @@ remove_incomplete_region_data <- function(data) {
 #'
 #' @return A data frame with one row per indicator, area, sex and time period,
 #'   containing values, confidence limits, indicator metadata and Fingertips
-#'   URLs. The same data frame is saved to `healthtrendsfiles/data/<data_name>`.
+#'   URLs. The same data frame is saved to `<output_path>/<data_name>`.
 #'
 #' @examples
 #' \dontrun{
@@ -141,7 +142,7 @@ get_data <- function(area_codes,
   tp_threshold_lower <- 2 # all geogs below upper geog
 
   # Set threshold for the minimum number of non-na values
-  na_threshold_upper <-  4 # upper geog
+  na_threshold_upper <- 4 # upper geog
   na_threshold_lower <- 2 # all geogs below upper geog
 
   # Upper (top-level) geography used for the time point threshold check.
@@ -253,8 +254,10 @@ get_data <- function(area_codes,
   miss_yr <- setdiff(unique(df$IndicatorID), unique(df_yr$IndicatorID))
 
   if (length(miss_yr) > 0) {
-    warning(paste0("The following indicators do not have annual data and have been removed: \n",
-                   paste(miss_yr, collapse = ", ")))
+    warning(paste0(
+      "The following indicators do not have annual data and have been removed: \n",
+      paste(miss_yr, collapse = ", ")
+    ))
   }
 
   # filter to "Persons" as default
@@ -271,21 +274,25 @@ get_data <- function(area_codes,
   # ---- Core formatting ----
   # format data frame
   df_selected <- df_sex |>
-    mutate(AreaName = str_remove_all(.data$AreaName,
-                                     " region \\(statistical\\)")) |>
-    select("IndicatorID",
-           "IndicatorName",
-           "AreaCode",
-           "AreaName",
-           "AreaType",
-           "Timeperiod",
-           "Sex",
-           "Age",
-           "Value",
-           "LowerCI95.0limit",
-           "UpperCI95.0limit",
-           "Count",
-           "TimeperiodSortable") |>
+    mutate(AreaName = str_remove_all(
+      .data$AreaName,
+      " region \\(statistical\\)"
+    )) |>
+    select(
+      "IndicatorID",
+      "IndicatorName",
+      "AreaCode",
+      "AreaName",
+      "AreaType",
+      "Timeperiod",
+      "Sex",
+      "Age",
+      "Value",
+      "LowerCI95.0limit",
+      "UpperCI95.0limit",
+      "Count",
+      "TimeperiodSortable"
+    ) |>
     distinct()
 
 
@@ -314,9 +321,11 @@ get_data <- function(area_codes,
 
   # add a completed TimeperiodSortable column
   complete_trend_df <- complete_trend_df |>
-    mutate(TimeperiodSortable = str_remove(.data$Timeperiod, "^[^0-9]*"),
-           TimeperiodSortable = str_sub(.data$TimeperiodSortable, start = 1, end = 4),
-           TimeperiodSortable = as.integer(.data$TimeperiodSortable) * 10000)
+    mutate(
+      TimeperiodSortable = str_remove(.data$Timeperiod, "^[^0-9]*"),
+      TimeperiodSortable = str_sub(.data$TimeperiodSortable, start = 1, end = 4),
+      TimeperiodSortable = as.integer(.data$TimeperiodSortable) * 10000
+    )
 
   complete_trend_area <- df_remove |>
     select("IndicatorID", "AreaCode") |>
@@ -340,17 +349,21 @@ get_data <- function(area_codes,
 
   add_tps <- df_remove |>
     right_join(complete_trend_area,
-      by = join_by("IndicatorID",
-                   "Timeperiod",
-                   "AreaCode",
-                   "Sex",
-                   "Age",
-                   "TimeperiodSortable")
+      by = join_by(
+        "IndicatorID",
+        "Timeperiod",
+        "AreaCode",
+        "Sex",
+        "Age",
+        "TimeperiodSortable"
+      )
     ) |>
-    select("IndicatorID",
-           "AreaCode",
-           "Timeperiod":"TimeperiodOrder",
-           "TimeperiodSortable")
+    select(
+      "IndicatorID",
+      "AreaCode",
+      "Timeperiod":"TimeperiodOrder",
+      "TimeperiodSortable"
+    )
 
   # add complete timeperiod rows to dataframe and include only main age category
   df_tp <- df_remove |>
@@ -411,13 +424,15 @@ get_data <- function(area_codes,
   # Remove indicators which are below lower geog threshold for those areas only
   df_threshold_lower <- df_threshold_upper |>
     anti_join(below_lower_threshold_df,
-              by = join_by("IndicatorID",
-                           "AreaCode",
-                           "Sex",
-                           "Age"))
+      by = join_by(
+        "IndicatorID",
+        "AreaCode",
+        "Sex",
+        "Age"
+      )
+    )
 
   if (nrow(below_lower_threshold_df) > 0) {
-
     removed_tp_text <- below_lower_threshold_df |>
       distinct(AreaName, IndicatorID) |>
       group_by(AreaName) |>
@@ -484,13 +499,15 @@ get_data <- function(area_codes,
   # Remove indicators which are below lower geog threshold for those areas only
   df_na_threshold_lower <- df_na_threshold_upper |>
     anti_join(below_lower_na_threshold_df,
-              by = join_by("IndicatorID",
-                           "AreaCode",
-                           "Sex",
-                           "Age"))
+      by = join_by(
+        "IndicatorID",
+        "AreaCode",
+        "Sex",
+        "Age"
+      )
+    )
 
   if (nrow(below_lower_na_threshold_df) > 0) {
-
     removed_na_text <- below_lower_na_threshold_df |>
       distinct(AreaName, IndicatorID) |>
       group_by(AreaName) |>
@@ -605,8 +622,8 @@ get_data <- function(area_codes,
 
   # could also exclude: "AreaCode", "AreaType", "OwnerProfileName"
 
-  # save the data into an rds file
-  file_path <- file.path("healthtrendsfiles", "data", data_name)
+  # save the data into an rds file in the output folder
+  file_path <- get_data_path(data_name)
 
   readr::write_rds(df, file_path)
 

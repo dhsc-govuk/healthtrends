@@ -11,6 +11,11 @@ Produces a health trend reports based on Health Trends in England: a set of acce
 \author{
 \strong{Maintainer}: Marika Kulesza \email{Marika.Kulesza@dhsc.gov.uk}
 
+Authors:
+\itemize{
+  \item Marika Kulesza \email{Marika.Kulesza@dhsc.gov.uk}
+}
+
 Other contributors:
 \itemize{
   \item Olivia Box Power \email{olivia.boxpower@dhsc.gov.uk} [contributor]

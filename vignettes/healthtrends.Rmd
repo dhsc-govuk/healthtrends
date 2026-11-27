@@ -73,10 +73,10 @@ import_healthtrends_files()
 
 It creates three folders at the top level of your working directory:
 
-* `healthtrendsfiles/` — the Quarto templates, styling and a `data/` folder for
-  the saved dataset.
+* `healthtrendsfiles/` — the Quarto templates and styling.
 * `input/` — a copy of `config.yaml` (used to reach the Fingertips API).
-* `output/` — where the finished HTML report is written.
+* `output/` — where the saved dataset and the finished HTML report are
+  written.
 
 The `overwrite` argument (default `TRUE`) controls whether the package's own
 template files are refreshed. Use `overwrite = FALSE` to keep any local edits
@@ -121,8 +121,9 @@ header persists in `healthtrendsfiles/` between report runs.
 
 `get_data()` downloads the indicator data from Fingertips, applies the project's
 quality checks (minimum number of time points, missing-value thresholds and
-regional completeness) and saves the result as a `.rds` file inside
-`healthtrendsfiles/data/`. It also returns the data frame, so you can inspect it.
+regional completeness) and saves the result as a `.rds` file in the output
+folder (`output_path` in the config file, `output/` by default). It also
+returns the data frame, so you can inspect it.
 
 ```{r get-data}
 htie_data <- get_data(
@@ -177,9 +178,9 @@ The `refresh_data` argument decides where the data comes from:
 
 * `refresh_data = TRUE` (default) refreshes the dataset from the API first, by
   calling `get_data()` internally. Use this for a normal run.
-* `refresh_data = FALSE` reuses the existing `.rds` already saved in
-  `healthtrendsfiles/data/`. This is faster and works offline, but stops with an
-  error if no dataset has been created yet.
+* `refresh_data = FALSE` reuses the existing `.rds` already saved in the
+  output folder. This is faster and works offline, but stops with an error if
+  no dataset has been created yet.
 
 ```{r generate-nofetch}
 # Re-render from the data already on disk, without hitting the API

@@ -178,9 +178,9 @@ fix_root_page_links <- function(html_path) {
 #'   ("E92000001") is always included. Defaults to England and the nine
 #'   regions.
 #' @param refresh_data Logical. If `TRUE` (the default), pulls fresh data from
-#'   the Fingertips API and saves it to
-#'   `healthtrendsfiles/data/health_trends_data.rds`. If `FALSE`, reuses that
-#'   file, which must already exist.
+#'   the Fingertips API and saves it as `health_trends_data.rds` in the output
+#'   folder (`output_path` in the config file). If `FALSE`, reuses that file,
+#'   which must already exist.
 #' @param config_file Path to the config YAML file. Defaults to
 #'   `"input/config.yaml"`, which [import_healthtrends_files()] creates.
 #'
@@ -194,9 +194,11 @@ fix_root_page_links <- function(html_path) {
 #' }
 #' @export
 generate_reports <- function(
-  area_codes = c("E92000001", "E12000001", "E12000002", "E12000003",
-                 "E12000004", "E12000005", "E12000006", "E12000007",
-                 "E12000008", "E12000009"),
+  area_codes = c(
+    "E92000001", "E12000001", "E12000002", "E12000003",
+    "E12000004", "E12000005", "E12000006", "E12000007",
+    "E12000008", "E12000009"
+  ),
   refresh_data = TRUE,
   config_file = "input/config.yaml"
 ) {
@@ -208,13 +210,11 @@ generate_reports <- function(
         !isTRUE(all(nchar(area_codes) == 9)) ||
         !isTRUE(all(str_sub(area_codes, 1, 3) %in%
                       c("E06", "E08", "E09", "E10", "E12", "E92")))) {
-
     stop(
       "area_codes should be a character vector or 9 digit ONS areacodes. ",
       "Only UTLA areas (2023 boundaries) and statistical regions are supported.",
       call. = FALSE
     )
-
   }
 
   # correct any superseded Barnsley/Sheffield codes to the codes Fingertips holds
@@ -224,17 +224,16 @@ generate_reports <- function(
   # area in Fingertips rather than reported on their own. Each row names the
   # area it is usually combined with and that area's code.
   combined_areas <- data.frame(
-    code      = c("E06000053",       "E09000001"),
-    name      = c("Isles of Scilly", "City of London"),
-    neighbour = c("Cornwall",        "Hackney"),
-    nbr_code  = c("E06000052",       "E09000012"),
+    code = c("E06000053", "E09000001"),
+    name = c("Isles of Scilly", "City of London"),
+    neighbour = c("Cornwall", "Hackney"),
+    nbr_code = c("E06000052", "E09000012"),
     stringsAsFactors = FALSE
   )
 
   hits <- combined_areas[combined_areas$code %in% area_codes, ]
 
   if (nrow(hits) > 0) {
-
     # one line per affected area, reused in both the stop and warning messages
     area_lines <- paste0(
       sprintf(
@@ -324,7 +323,7 @@ generate_reports <- function(
   data_name <- "health_trends_data.rds"
 
   # check data exists or create data
-  if (!refresh_data && !file.exists(file.path("healthtrendsfiles", "data", data_name))) {
+  if (!refresh_data && !file.exists(get_data_path(data_name))) {
     rlang::abort(
       "Dataset does not exist. Set `refresh_data = TRUE` to create it."
     )
@@ -334,12 +333,14 @@ generate_reports <- function(
 
   if (refresh_data) {
     # get all_data and save as an rds file
-    get_data(area_codes = area_codes,
-             data_name = data_name)
+    get_data(
+      area_codes = area_codes,
+      data_name = data_name
+    )
   }
 
   # Read in data file
-  file_path <- file.path("healthtrendsfiles", "data", data_name)
+  file_path <- get_data_path(data_name)
   all_data <- readr::read_rds(file_path) |>
     filter(.data$AreaCode %in% area_codes)
 
